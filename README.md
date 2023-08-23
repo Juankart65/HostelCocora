@@ -1,2 +1,2 @@
 # HostelCocora
- Caso de estudio Ingeniría de software
+ Caso de estudio Ingeniería de software
