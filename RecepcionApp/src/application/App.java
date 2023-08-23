@@ -1,10 +1,10 @@
-package co.edu.uniquindio.hostelcocora.recepcion.application;
+package application;
 
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import co.edu.uniquindio.hostelcocora.recepcion.controllers.FormularioController;
-import co.edu.uniquindio.hostelcocora.recepcion.controllers.RecepcionController;
+import controllers.FormularioController;
+import controllers.RecepcionController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
