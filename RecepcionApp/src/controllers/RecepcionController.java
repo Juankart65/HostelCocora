@@ -1,6 +1,6 @@
-package co.edu.uniquindio.hostelcocora.recepcion.controllers;
+package controllers;
 
-import co.edu.uniquindio.hostelcocora.recepcion.application.App;
+import application.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

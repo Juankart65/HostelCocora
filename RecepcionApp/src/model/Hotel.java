@@ -1,4 +1,4 @@
-package co.edu.uniquindio.hostelcocora.recepcion.model;
+package model;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package co.edu.uniquindio.hostelcocora.recepcion.model;
+package model;
 
 public class Reserva {
 
