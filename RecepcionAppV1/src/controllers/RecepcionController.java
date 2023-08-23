@@ -1,5 +1,8 @@
 package controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import application.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +31,15 @@ public class RecepcionController {
 	    private Label txtFecha;
 	    
 	    App app = new App();
+	    
+		/**
+		 * Metodo initialize predefinido
+		 */
+		@FXML
+		private void initialize() {
+			String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy"));
+			txtFecha.setText(fecha);
+		}
 
 	    @FXML
 	    void crearReservaAction(ActionEvent event) {

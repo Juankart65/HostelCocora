@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="main" prefHeight="698.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.InicioSesionController">
+   <children>
+    <AnchorPane layoutX="16.0" layoutY="18.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="365.0" styleClass="root" stylesheets="@../resources/Styles.css">
+         <children>
+            <ImageView fitHeight="612.0" fitWidth="337.0" layoutX="14.0" layoutY="26.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/fondoMovil.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="20.0" layoutY="121.0" prefHeight="5.0" prefWidth="325.0" />
+            <Label alignment="CENTER" layoutX="50.0" layoutY="49.0" prefHeight="53.0" prefWidth="265.0" styleClass="labelTitulo" text="Inicio de Sesion" textFill="#14a7d0" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Separator layoutX="20.0" layoutY="451.0" prefHeight="5.0" prefWidth="325.0" />
+            <HBox layoutX="20.0" layoutY="489.0" prefHeight="53.0" prefWidth="325.0" spacing="10.0">
+            	<children>
+		            <Button fx:id="btnIniciarSesion" layoutX="34.0" layoutY="190.0" mnemonicParsing="false" onAction="#iniciarSesionEvent" prefHeight="50.0" prefWidth="140.0" text="Iniciar sesion" textFill="#14a7d0" />
+		            <Button fx:id="btnRegistrarse" layoutX="182.0" layoutY="190.0" mnemonicParsing="false" onAction="#registrarseEvent" prefHeight="55.0" prefWidth="137.0" text="Registrarse" textFill="#14a7d0" />
+		            <Button fx:id="btnSalir" layoutX="473.0" layoutY="190.0" mnemonicParsing="false" onAction="#salirEvent" prefHeight="53.0" prefWidth="114.0" text="Salir" textFill="#14a7d0" />
+	            </children>
+            </HBox>
+            <GridPane layoutX="50.0" layoutY="213.0" prefHeight="158.0" prefWidth="265.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField id="campo" fx:id="txtCuenta" prefHeight="25.0" prefWidth="179.0" styleClass="TextField" GridPane.columnIndex="1" />
+                  <PasswordField fx:id="txtContrasenia" prefHeight="25.0" prefWidth="179.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="130.0" stylesheets="@../resources/Styles.css" text="Cuenta" textFill="#14a7d0" underline="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="130.0" stylesheets="@../resources/Styles.css" text="Contraseña" textFill="#14a7d0" underline="true" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

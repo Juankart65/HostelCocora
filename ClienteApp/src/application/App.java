@@ -3,8 +3,9 @@ package application;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import controllers.FormularioController;
-import controllers.RecepcionController;
+import controllers.InicioSesionController;
+import controllers.RegistrarUsuarioController;
+import controllers.ReservasClienteController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,7 +35,7 @@ public class App extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.initStyle(StageStyle.TRANSPARENT);
 		this.primaryStage.centerOnScreen();
-		mostrarVentanaRecepcion();
+		mostrarVentanaLogin();
 	}
 
 	/**
@@ -49,15 +50,15 @@ public class App extends Application {
 	/**
 	 * Muestra la ventana para que el usuario inicie sesion
 	 */
-	public void mostrarVentanaRecepcion() {
+	public void mostrarVentanaLogin() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(App.class.getResource("../views/RecepcionView.fxml"));
+			loader.setLocation(App.class.getResource("../views/InicioSesion.fxml"));
 
 			AnchorPane rootLayout = (AnchorPane) loader.load();
 
-			RecepcionController recepcionController = loader.getController();
-			recepcionController.setAplicacion(this);
+			InicioSesionController inicioSesionController = loader.getController();
+			inicioSesionController.setAplicacion(this);
 
 			Scene scene = new Scene(rootLayout);
 
@@ -75,15 +76,41 @@ public class App extends Application {
 		}
 	}
 
-	public void mostrarVentanaFormularioReserva() {
+	public void mostrarVentanaReservas() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(App.class.getResource("../views/FormularioReserva.fxml"));
+			loader.setLocation(App.class.getResource("../views/ReservasCliente.fxml"));
 
 			AnchorPane rootLayout = (AnchorPane) loader.load();
 
-			FormularioController formularioController = loader.getController();
-			formularioController.setAplicacion(this);
+			ReservasClienteController reservasClienteController = loader.getController();
+			reservasClienteController.setAplicacion(this);
+
+			Scene scene = new Scene(rootLayout);
+
+			// Establecer el color de relleno del Scene a transparente
+			scene.setFill(Color.TRANSPARENT);
+			// Agregar el archivo de estilos style.css
+			scene.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
+
+			primaryStage.setScene(scene);
+			primaryStage.centerOnScreen();
+			primaryStage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	public void mostrarVentanaRegistrarse() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(App.class.getResource("../views/RegistrarUsuario.fxml"));
+
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+
+			RegistrarUsuarioController registrarUsuarioController = loader.getController();
+			registrarUsuarioController.setAplicacion(this);
 
 			Scene scene = new Scene(rootLayout);
 
