@@ -45,5 +45,82 @@ public class Hotel {
 	public Hotel() {
 		super();
 	}
+	
+	
+	public Habitacion crearHabitacion (String id, ArrayList<Cama>listaCamas, Estado estado, Disponibilidad disponibilidad, TipoHabitacion tipoHabitacion) throws Exception {
+		
+		Habitacion habitacion = null;
+		boolean habitacionExiste = false;
+		
+		habitacionExiste = verificarHabitacionExiste(id);
+		
+		if(habitacionExiste) {
+			throw new Exception("la habitacion "+ id + "no se ha podido crear debido a que ya existe");
+		}else {
+			habitacion=  new Habitacion();
+			habitacion.setId(id);
+			habitacion.setListaCamas(listaCamas);
+			habitacion.setEstado(estado);
+			habitacion.setDisponibilidad(disponibilidad);
+			habitacion.setTipoHabticacion(tipoHabitacion);
+			
+			listaHabitaciones.add(habitacion);
+		}
+		return habitacion;
+		
+	}
+	
+	
+	public Habitacion obtenerHabitacion(String id) {
+		
+		Habitacion habitacionEncontada = null;
+		if(id!=null) {
+			for (Habitacion habitacion : listaHabitaciones) {
+				if(habitacion.getId().equals(id)) habitacionEncontada = habitacion;
+			}
+			
+		}
+		return habitacionEncontada;
+		
+	}
+	
+	public void updateHabitacion(String id, Habitacion newHabitacion) {
+		
+		
+		Habitacion habitacionEncontada = obtenerHabitacion(id);
+		if(habitacionEncontada != null) {
+			habitacionEncontada.setId(newHabitacion.getId());
+			habitacionEncontada.setListaCamas(newHabitacion.getListaCamas());
+			habitacionEncontada.setDisponibilidad(newHabitacion.getDisponibilidad());
+			habitacionEncontada.setEstado(newHabitacion.getEstado());
+			habitacionEncontada.setTipoHabticacion(newHabitacion.getTipoHabticacion());
+		}
+		
+	}
+	
+public void deleteHabitacion(String id) {
+		
+		if(id!=null) {
+			for (Habitacion habitacion : listaHabitaciones) {
+				if(habitacion.getId().equals(id)) listaHabitaciones.remove(habitacion);
+				System.out.println("habitacion eliminada correctamente");
+			}
+			
+		}
+		
+		
+	}
+	
+	
+public boolean verificarHabitacionExiste(String id) {
+	for (Habitacion habitacion : listaHabitaciones) {
+		if(habitacion.getId().equals(id)) {
+			return true;
+		}
+	}
+	
+	return false;
+	}
+
 
 }
