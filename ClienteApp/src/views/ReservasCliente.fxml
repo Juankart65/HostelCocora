@@ -15,7 +15,7 @@
 
 <AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservasClienteController">
    <children>
-      <AnchorPane layoutX="34.0" layoutY="20.0" prefHeight="659.0" prefWidth="367.0" styleClass="root" stylesheets="@../resources/Styles.css">
+      <AnchorPane layoutX="34.0" layoutY="20.0" prefHeight="660.0" prefWidth="365.0" styleClass="root" stylesheets="@../resources/Styles.css">
          <children>
             <ImageView fitHeight="647.0" fitWidth="347.0" layoutX="18.0" layoutY="35.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
                <image>
