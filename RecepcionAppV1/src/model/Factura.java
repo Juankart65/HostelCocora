@@ -72,5 +72,14 @@ public class Factura {
 	public String toString() {
 		return "Factura [id=" + id + ", fecha=" + fecha + ", subValor=" + subValor + ", valorTotal=" + valorTotal + "]";
 	}
+	
+	public void calcularSubvalor() {
+		Reserva reserva = new Reserva();
+		
+	}
+	
+	public void calcularValorTotal() {
+		
+	}
 
 }

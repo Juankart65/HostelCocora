@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import exceptions.ReservaException;
@@ -14,6 +15,16 @@ public class Hotel {
 	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();
 	private ArrayList<Reserva> listaReservas = new ArrayList<>();
 	private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	private ArrayList<Cama> listaCamas = new ArrayList<>();
+	public ArrayList<Cama> getListaCamas() {
+		return listaCamas;
+	}
+
+
+	public void setListaCamas(ArrayList<Cama> listaCamas) {
+		this.listaCamas = listaCamas;
+	}
+
 	private Alert alert;
 	private DialogPane dialogPane;
 
@@ -168,7 +179,7 @@ public class Hotel {
 			reserva = new Reserva();
 			reserva.setId(newReserva.getId());
 			reserva.setUsuario(newReserva.getUsuario());
-			reserva.setHabitacion(newReserva.getHabitacion());
+			reserva.setListaHabitaciones(newReserva.getListaHabitaciones());
 			getListaReservas().add(reserva);
 		}
 		
@@ -205,7 +216,7 @@ public class Hotel {
 		Reserva reservaEncontrada = obtenerReserva(id);
 		if (reservaEncontrada != null) {
 			reservaEncontrada.setId(newReserva.getId());
-			reservaEncontrada.setHabitacion(newReserva.getHabitacion());
+			reservaEncontrada.setListaHabitaciones(newReserva.getListaHabitaciones());
 			reservaEncontrada.setUsuario(newReserva.getUsuario());
 			reservaEncontrada.setFactura(newReserva.getFactura());
 		}

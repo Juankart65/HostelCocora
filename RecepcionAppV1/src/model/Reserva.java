@@ -1,22 +1,24 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Reserva {
 
 	private String id;
 	private Usuario usuario;
-	private Habitacion habitacion;
+	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();
 	private Factura factura;
 	private String fechaEntrada;
 	private String fechaSalida;
 	
 	
 
-	public Reserva(String id, Usuario usuario, Habitacion habitacion, Factura factura, String fechaEntrada,
+	public Reserva(String id, Usuario usuario, ArrayList<Habitacion> listaHabitaciones, Factura factura, String fechaEntrada,
 			String fechaSalida) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
-		this.habitacion = habitacion;
+		this.listaHabitaciones = listaHabitaciones;
 		this.factura = factura;
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
@@ -54,12 +56,13 @@ public class Reserva {
 		this.usuario = usuario;
 	}
 
-	public Habitacion getHabitacion() {
-		return habitacion;
+	
+	public ArrayList<Habitacion> getListaHabitaciones() {
+		return listaHabitaciones;
 	}
 
-	public void setHabitacion(Habitacion habitacion) {
-		this.habitacion = habitacion;
+	public void setListaHabitaciones(ArrayList<Habitacion> listaHabitaciones) {
+		this.listaHabitaciones = listaHabitaciones;
 	}
 
 	public Factura getFactura() {
@@ -73,5 +76,29 @@ public class Reserva {
 	public Reserva() {
 		super();
 	}
+	
+	private void calcularSubValorFactura(Factura factura) {
+		
+		double subValor = 0;
+		
+		for (Habitacion habitacion : listaHabitaciones) {
+			if(habitacion.getTipoHabticacion() == TipoHabitacion.DOBLE) {
+				subValor+=120000;
+			}else {
+				subValor+=80000;
+			}
+ 
+			
+		}
+		
+		
+		
+	}
+	
+	private void calcularValorTotal() {
+		
+	}
+	
+	
 
 }

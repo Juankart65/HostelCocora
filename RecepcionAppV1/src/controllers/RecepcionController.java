@@ -69,12 +69,14 @@ public class RecepcionController {
 			
 			
 			Habitacion habitacion =  app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+			ArrayList<Habitacion>habitaciones = new ArrayList<Habitacion>();
+			habitaciones.add(habitacion);
 		
 			
 			Factura factura = new Factura("01", "14/02", "300", "315");
-			Reserva reserva = new Reserva("01", userTest1, habitacion, factura, "", "");
+			Reserva reserva = new Reserva("01", userTest1, habitaciones, factura, "", "");
 			app.hotel.crearReserva(reserva);
-			
+
 			cargarReservasAction();
 			cargarHabitacionesDisponiblesAction();
 			
