@@ -20,6 +20,14 @@ public class Hotel {
 	public String getNombre() {
 		return nombre;
 	}
+	
+
+	public Hotel(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+
+
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
@@ -134,18 +142,18 @@ public class Hotel {
 	
 	//------------------CRUD Reserva------------------------------
 	
-	public Reserva crearReserva(String id, Usuario usuario, Habitacion habitacion, Factura factura) throws ReservaException {
+	public Reserva crearReserva(Reserva newReserva) throws ReservaException {
 		
 		Reserva reserva = null;
 		boolean reservaExiste = false;
 		
-		reservaExiste = verificarReservaExiste(id);
+		reservaExiste = verificarReservaExiste(newReserva.getId());
 		
 		if(reservaExiste == true) {
 			
     		alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Reserva no creada");
-			alert.setHeaderText("La reserva con el id # " + id + " no ha sido creada porque ya existe");
+			alert.setHeaderText("La reserva con el id # " + newReserva.getId() + " no ha sido creada porque ya existe");
 			
 			dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
@@ -153,14 +161,14 @@ public class Hotel {
 
 			alert.showAndWait();
 			
-			throw new ReservaException("La reserva con el id # " + id + " no se puede guardar porque ya existe");
+			throw new ReservaException("La reserva con el id # " + newReserva.getId() + " no se puede guardar porque ya existe");
 			
 
 		} else {
 			reserva = new Reserva();
-			reserva.setId(id);
-			reserva.setUsuario(usuario);
-			reserva.setHabitacion(habitacion);
+			reserva.setId(newReserva.getId());
+			reserva.setUsuario(newReserva.getUsuario());
+			reserva.setHabitacion(newReserva.getHabitacion());
 			getListaReservas().add(reserva);
 		}
 		

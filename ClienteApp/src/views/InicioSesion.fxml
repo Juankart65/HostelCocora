@@ -47,9 +47,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField id="campo" fx:id="txtCuenta" prefHeight="25.0" prefWidth="179.0" styleClass="TextField" GridPane.columnIndex="1" />
+                  <TextField id="campo" fx:id="txtUsuario" prefHeight="25.0" prefWidth="179.0" styleClass="TextField" GridPane.columnIndex="1" />
                   <PasswordField fx:id="txtContrasenia" prefHeight="25.0" prefWidth="179.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="130.0" stylesheets="@../resources/Styles.css" text="Cuenta" textFill="#14a7d0" underline="true">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="130.0" stylesheets="@../resources/Styles.css" text="Usuario" textFill="#14a7d0" underline="true">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -1,5 +1,6 @@
 package application;
 
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
+import model.Hotel;
+import model.Usuario;
 
 
 /**
@@ -26,6 +29,7 @@ public class App extends Application {
 	// Declaracion de variables
 	private Stage primaryStage;
 	public Stage dialogStage;
+	public Hotel hotel = new Hotel();
 
 	/**
 	 * Metodo start
@@ -102,31 +106,47 @@ public class App extends Application {
 		}		
 	}
 
-	public void mostrarVentanaRegistrarse() {
+	
+	/**
+	 * Muestra la ventana para registrar un nuevo usuario
+	 * 
+	 * @param cliente
+	 * @return
+	 */
+	public boolean mostrarVentanaRegistrarUsuario(Usuario usuario) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(App.class.getResource("../views/RegistrarUsuario.fxml"));
 
-			AnchorPane rootLayout = (AnchorPane) loader.load();
+			AnchorPane page = (AnchorPane) loader.load();
 
-			RegistrarUsuarioController registrarUsuarioController = loader.getController();
-			registrarUsuarioController.setAplicacion(this);
-
-			Scene scene = new Scene(rootLayout);
-
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Registrar Usuario");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			dialogStage.initStyle(StageStyle.TRANSPARENT);
+			Scene scene = new Scene(page);
 			// Establecer el color de relleno del Scene a transparente
 			scene.setFill(Color.TRANSPARENT);
 			// Agregar el archivo de estilos style.css
 			scene.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
+			dialogStage.setScene(scene);
 
-			primaryStage.setScene(scene);
-			primaryStage.centerOnScreen();
-			primaryStage.show();
+			RegistrarUsuarioController registrarclienteController = loader.getController();
+			registrarclienteController.mostrarDialogStage(dialogStage);
+			registrarclienteController.mostrarUsuario(usuario);
+
+			dialogStage.showAndWait();
+
+			return registrarclienteController.isOkClicked();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+			return false;
+		}
 	}
+
 
 
 }

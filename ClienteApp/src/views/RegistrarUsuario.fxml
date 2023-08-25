@@ -53,21 +53,35 @@
                   <TextField fx:id="txtApellidos" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="txtIdentificacion" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="txtEmail" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="160.0" stylesheets="@../resources/Styles.css" text="Contraseña" textFill="#14a7d0" underline="true" GridPane.rowIndex="4">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="160.0" stylesheets="@../resources/Styles.css" text="Contraseña" textFill="#14a7d0" underline="true" GridPane.rowIndex="6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="txtContraseña" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <PasswordField fx:id="txtContraseña" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="txtUsuario" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="160.0" stylesheets="@../resources/Styles.css" text="Usuario" textFill="#14a7d0" underline="true" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="160.0" stylesheets="@../resources/Styles.css" text="Email" textFill="#14a7d0" underline="true" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtTelefono" prefHeight="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="166.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="220.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="190.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="157.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="109.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="83.0" vgrow="SOMETIMES" />
                </rowConstraints>
