@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import model.Hotel;
+import model.Reserva;
 
 
 /**
@@ -78,7 +79,7 @@ public class App extends Application {
 		}
 	}
 
-	public void mostrarVentanaFormularioReserva() {
+	public void mostrarVentanaFormularioReserva(Reserva reserva) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(App.class.getResource("../views/FormularioReserva.fxml"));
@@ -87,6 +88,7 @@ public class App extends Application {
 
 			FormularioController formularioController = loader.getController();
 			formularioController.setAplicacion(this);
+			formularioController.mostrarReserva(reserva);
 
 			Scene scene = new Scene(rootLayout);
 

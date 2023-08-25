@@ -3,16 +3,25 @@ package controllers;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import application.App;
 import exceptions.ReservaException;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import model.Cama;
 import model.Disponibilidad;
 import model.Estado;
@@ -43,6 +52,15 @@ public class RecepcionController {
 	    @FXML
 	    private Label txtFecha;
 	    
+	    @FXML
+	    private ListView<Habitacion> lvHabitaciones = new ListView<Habitacion>();
+
+	    @FXML
+	    private ListView<Reserva> lvReservas = new ListView<Reserva>();
+	    
+	    private List<String> selectedIndices = new ArrayList<>();
+
+	    
 	    App app = new App();
 	    
 		/**
@@ -53,14 +71,14 @@ public class RecepcionController {
 		
 		private void initialize() throws Exception {
 			
+			//Fecha
 			String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy"));
-			
 			txtFecha.setText(fecha);
 			
-			
+			/*
+			 * 
+			 */
 			Usuario userTest1 = new Usuario("10050", "323323", "juane@");
-			
-			
 			Cama cama = new Cama( "id1", Estado.FUNCIONANDO, TipoCama.INDIVIDUAL, "id1" );
 			
 			
@@ -69,23 +87,21 @@ public class RecepcionController {
 			
 			
 			Habitacion habitacion =  app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
-			ArrayList<Habitacion>habitaciones = new ArrayList<Habitacion>();
-			habitaciones.add(habitacion);
+			Habitacion habitacion1 =  app.hotel.crearHabitacion("02", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
+			Habitacion habitacion2 =  app.hotel.crearHabitacion("03", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+
 		
 			
 			Factura factura = new Factura("01", "14/02", "300", "315");
-			Reserva reserva = new Reserva("01", userTest1, habitaciones, factura, "", "");
+			Reserva reserva = new Reserva("01", userTest1, null, factura, "", "");
 			app.hotel.crearReserva(reserva);
-
+			
+			
 			cargarReservasAction();
 			cargarHabitacionesDisponiblesAction();
 			
 		}
 
-	    @FXML
-	    void crearReservaAction(ActionEvent event) {
-	    	app.mostrarVentanaFormularioReserva();
-	    }
 
 	    @FXML
 	    void generarFacturaAction(ActionEvent event) {
@@ -104,51 +120,87 @@ public class RecepcionController {
 		}
 		
 		public void cargarReservasAction() {
-			
-			ArrayList<Reserva>reservas = app.hotel.getListaReservas();
-			// Crear una cadena para almacenar la informaci�n de las reservas
-		    StringBuilder reservaInfo = new StringBuilder();
+		    ArrayList<Reserva> reservas = app.hotel.getListaReservas();
+		    ObservableList<Reserva> reservasObservableList = FXCollections.observableArrayList(reservas);
 
-		    // Recorrer las reservas y construir la cadena
-		    for (Reserva reserva : reservas) {
-		        reservaInfo.append("ID Reserva: ").append(reserva.getId()).append("\n");
-		        reservaInfo.append("Nombre Cliente: ").append(reserva.getUsuario().getCedula()).append("\n");
-		        reservaInfo.append("Fecha Inicio: ").append(reserva.getId()).append("\n");
-		       // reservaInfo.append("Fecha Fin: ").append(reserva.getFechaSalida()).append("\n");
-		        // Agregar m�s detalles de la reserva seg�n sea necesario
-		        reservaInfo.append("\n");  // Espacio entre reservas
-		    }
+		    lvReservas.setItems(reservasObservableList);
 
-		    // Establecer la cadena construida en el TextArea
-		    txtReservas.setText(reservaInfo.toString());
-			
-			
+		    // Configurar el CellFactory para mostrar los detalles de la reserva
+		    lvReservas.setCellFactory(param -> new ListCell<Reserva>() {
+		        @Override
+		        protected void updateItem(Reserva reserva, boolean empty) {
+		            super.updateItem(reserva, empty);
+
+		            if (empty || reserva == null) {
+		                setText(null);
+		            } else {
+		                setText("ID Reserva: " + reserva.getId() +
+		                        "\nNombre Cliente: " + reserva.getUsuario().getCedula() +
+		                        "\nFecha Inicio: " + reserva.getFechaEntrada());
+		            }
+		        }
+		    });
+
+		    // Configurar el evento de selección del ListView
+		    lvReservas.getSelectionModel().selectedItemProperty().addListener(
+		        (observable, oldValue, newValue) -> mostrarDetallesReserva(newValue));
 		}
+		
+		private Object mostrarDetallesReserva(Reserva newValue) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		public void cargarHabitacionesDisponiblesAction() {
 			
-			ArrayList<Habitacion>habitaciones = app.hotel.getListaHabitaciones();
-			// Crear una cadena para almacenar la informaci�n de las reservas
-			StringBuilder habitacionesInfo = new StringBuilder();
-			
-			// Recorrer las reservas y construir la cadena
-			for (Habitacion habitacion : habitaciones) {
-				if(habitacion.getDisponibilidad() == Disponibilidad.DISPONIBLE)  {
-										
-					habitacionesInfo.append("ID habitacion: ").append(habitacion.getId()).append("\n");
-					habitacionesInfo.append("Estado: ").append(habitacion.getEstado()).append("\n");
-					habitacionesInfo.append("Disponibilidad: ").append(habitacion.getDisponibilidad()).append("\n");
-					habitacionesInfo.append("Tipo: ").append(habitacion.getTipoHabticacion()).append("\n");
-					
-					// Agregar m�s detalles de la reserva seg�n sea necesario
-					habitacionesInfo.append("\n"); 
-					// Espacio entre reservas
-				}
-					
-			}
-			
-			// Establecer la cadena construida en el TextArea
-			txtcamasDisponibles.setText(habitacionesInfo.toString());
-			
-			
+		    ArrayList<Habitacion> habitacion = app.hotel.getListaHabitaciones();
+		    ObservableList<Habitacion> reservasObservableList = FXCollections.observableArrayList(habitacion);
+
+		    lvHabitaciones.setItems(reservasObservableList);
+
+		    // Configurar el CellFactory para mostrar los detalles de la reserva
+		    lvHabitaciones.setCellFactory(param -> new ListCell<Habitacion>() {
+		        @Override
+		        protected void updateItem(Habitacion habitacion, boolean empty) {
+		            super.updateItem(habitacion, empty);
+
+		            if (empty || habitacion == null) {
+		                setText(null);
+		            } else {
+		                setText("ID Habitacion: " + habitacion.getId() +
+		                        "\nEstado: " + habitacion.getEstado() +
+		                        "\nDisponibilidad: " + habitacion.getDisponibilidad() +
+		                        "\nTipo de habitacion: " + habitacion.getTipoHabticacion());
+		            }
+		        }
+		    });
+		    
+		    // Configurar el modo de selección múltiple
+		    lvHabitaciones.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+
+		    // Configurar el evento de selección del ListView
+		    lvHabitaciones.getSelectionModel().selectedItemProperty().addListener(
+		            (ObservableValue<? extends Habitacion> observable, Habitacion oldValue, Habitacion newValue) -> {
+		                selectedIndices.clear();
+		                for (Habitacion habitacionSelected : lvHabitaciones.getSelectionModel().getSelectedItems()) {
+		                    selectedIndices.add(habitacionSelected.getId());
+		                }
+		            });
 		}
+		
+	    @FXML
+	    void crearReservaAction(ActionEvent event) {
+	    	Reserva reserva = null;
+	    	
+	    	for (String indice : selectedIndices) {
+				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+					if(habitacion != null && habitacion.getId().equals(indice)) {
+						reserva.getListaHabitaciones().add(habitacion);
+					}
+				}
+			}
+	    	app.mostrarVentanaFormularioReserva(reserva);
+	    }
+
 }

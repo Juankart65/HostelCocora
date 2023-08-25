@@ -22,6 +22,18 @@
 	-fx-border-with: 2px;
 }
 
+.buttonSalir {
+	-fx-background-radius: 40;
+	-fx-text-fill: #d2f4e4;
+	-fx-background-color: #f57576;
+}
+
+.buttonSalir:hover {
+	-fx-text-fill: #a5d37f;
+	-fx-background-color: #fd0a54;
+	-fx-border-with: 2px;
+}
+
 .label {
 	-fx-background-radius: 10;
 	-fx-border-with: 5px;

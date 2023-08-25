@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import model.Reserva;
 
 public class FormularioController {
 
@@ -55,6 +56,11 @@ public class FormularioController {
 	public void setAplicacion(App app) {
 		
 		this.app = app;
+		
+	}
+
+	public void mostrarReserva(Reserva reserva) {
+		// TODO Auto-generated method stub
 		
 	}
 
