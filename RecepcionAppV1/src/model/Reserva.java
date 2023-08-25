@@ -8,6 +8,19 @@ public class Reserva {
 	private Factura factura;
 	private String fechaEntrada;
 	private String fechaSalida;
+	
+	
+
+	public Reserva(String id, Usuario usuario, Habitacion habitacion, Factura factura, String fechaEntrada,
+			String fechaSalida) {
+		super();
+		this.id = id;
+		this.usuario = usuario;
+		this.habitacion = habitacion;
+		this.factura = factura;
+		this.fechaEntrada = fechaEntrada;
+		this.fechaSalida = fechaSalida;
+	}
 
 	public String getId() {
 		return id;

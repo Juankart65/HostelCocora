@@ -72,7 +72,8 @@ public class RecepcionController {
 		
 			
 			Factura factura = new Factura("01", "14/02", "300", "315");
-			app.hotel.crearReserva("1", userTest1, habitacion, factura);
+			Reserva reserva = new Reserva("01", userTest1, habitacion, factura, "", "");
+			app.hotel.crearReserva(reserva);
 			
 			cargarReservasAction();
 			cargarHabitacionesDisponiblesAction();
@@ -103,7 +104,7 @@ public class RecepcionController {
 		public void cargarReservasAction() {
 			
 			ArrayList<Reserva>reservas = app.hotel.getListaReservas();
-			// Crear una cadena para almacenar la información de las reservas
+			// Crear una cadena para almacenar la informaciï¿½n de las reservas
 		    StringBuilder reservaInfo = new StringBuilder();
 
 		    // Recorrer las reservas y construir la cadena
@@ -112,7 +113,7 @@ public class RecepcionController {
 		        reservaInfo.append("Nombre Cliente: ").append(reserva.getUsuario().getCedula()).append("\n");
 		        reservaInfo.append("Fecha Inicio: ").append(reserva.getId()).append("\n");
 		       // reservaInfo.append("Fecha Fin: ").append(reserva.getFechaSalida()).append("\n");
-		        // Agregar más detalles de la reserva según sea necesario
+		        // Agregar mï¿½s detalles de la reserva segï¿½n sea necesario
 		        reservaInfo.append("\n");  // Espacio entre reservas
 		    }
 
@@ -124,7 +125,7 @@ public class RecepcionController {
 		public void cargarHabitacionesDisponiblesAction() {
 			
 			ArrayList<Habitacion>habitaciones = app.hotel.getListaHabitaciones();
-			// Crear una cadena para almacenar la información de las reservas
+			// Crear una cadena para almacenar la informaciï¿½n de las reservas
 			StringBuilder habitacionesInfo = new StringBuilder();
 			
 			// Recorrer las reservas y construir la cadena
@@ -136,7 +137,7 @@ public class RecepcionController {
 					habitacionesInfo.append("Disponibilidad: ").append(habitacion.getDisponibilidad()).append("\n");
 					habitacionesInfo.append("Tipo: ").append(habitacion.getTipoHabticacion()).append("\n");
 					
-					// Agregar más detalles de la reserva según sea necesario
+					// Agregar mï¿½s detalles de la reserva segï¿½n sea necesario
 					habitacionesInfo.append("\n"); 
 					// Espacio entre reservas
 				}
