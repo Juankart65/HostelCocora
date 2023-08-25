@@ -83,10 +83,16 @@ public class Reserva {
 		
 		for (Habitacion habitacion : listaHabitaciones) {
 			if(habitacion.getTipoHabticacion() == TipoHabitacion.DOBLE) {
-				subValor+=120000;
+				
+				if(habitacion.getListaCamas().size() ==1 ) subValor+=120000;
+				
+				
+				
 			}else {
 				subValor+=80000;
 			}
+			
+			
  
 			
 		}
