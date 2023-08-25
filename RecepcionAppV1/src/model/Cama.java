@@ -45,6 +45,15 @@ public class Cama {
 		super();
 	}
 
+	public Cama(String id, Estado estado, TipoCama tipoCama, String idHabitacion) {
+		super();
+		this.id = id;
+		this.estado = estado;
+		this.tipoCama = tipoCama;
+		this.idHabitacion = idHabitacion;
+
+	}
+
 	@Override
 	public String toString() {
 		return "Cama [id=" + id + ", estado=" + estado + ", tipoCama=" + tipoCama + ", idHabitacion=" + idHabitacion

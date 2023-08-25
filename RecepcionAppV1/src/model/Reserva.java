@@ -6,9 +6,27 @@ public class Reserva {
 	private Usuario usuario;
 	private Habitacion habitacion;
 	private Factura factura;
+	private String fechaEntrada;
+	private String fechaSalida;
 
 	public String getId() {
 		return id;
+	}
+
+	public String getFechaEntrada() {
+		return fechaEntrada;
+	}
+
+	public void setFechaEntrada(String fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+
+	public String getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(String fechaSalida) {
+		this.fechaSalida = fechaSalida;
 	}
 
 	public void setId(String id) {

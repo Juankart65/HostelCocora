@@ -8,6 +8,8 @@ public class Factura {
 	private String fecha;
 	private String subValor;
 	private String valorTotal;
+	
+//	
 
 	public String getId() {
 		return id;
@@ -42,6 +44,10 @@ public class Factura {
 	}
 
 	public Factura() {
+		super();
+	}
+
+	public Factura(String string, String string2, String string3, String string4) {
 		super();
 	}
 

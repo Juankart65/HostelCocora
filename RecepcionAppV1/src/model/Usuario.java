@@ -42,9 +42,15 @@ public class Usuario {
 		this.listaReservas = listaReservas;
 	}
 
-	public Usuario() {
+	public Usuario(String cedula, String telefono, String email) {
 		super();
+		this.cedula = cedula;
+		
 	}
+	
+	
+
+
 
 	@Override
 	public String toString() {
