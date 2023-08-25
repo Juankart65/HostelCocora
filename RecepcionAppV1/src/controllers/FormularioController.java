@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import model.Reserva;
@@ -38,7 +39,30 @@ public class FormularioController {
     @FXML
     private TextField txtCedula;
     
-    App app = new App();
+    @FXML
+    private DatePicker dpFechaLlegada;
+    
+    @FXML
+    private DatePicker dpFechaSalida;
+
+    
+    public DatePicker getDpFechaLlegada() {
+		return dpFechaLlegada;
+	}
+
+	public void setDpFechaLlegada(DatePicker dpFechaLlegada) {
+		this.dpFechaLlegada = dpFechaLlegada;
+	}
+
+	public DatePicker getDpFechaSalida() {
+		return dpFechaSalida;
+	}
+
+	public void setDpFechaSalida(DatePicker dpFechaSalida) {
+		this.dpFechaSalida = dpFechaSalida;
+	}
+
+	App app = new App();
 
     @FXML
     private ComboBox<?> cbxCantidadHabitacionesSencillos;
