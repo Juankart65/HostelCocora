@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Reserva {
@@ -77,33 +79,64 @@ public class Reserva {
 		super();
 	}
 	
-	private void calcularSubValorFactura(Factura factura) {
+	
+	private void calcularSubValorFactura() {
 		
 		double subValor = 0;
+		
+		//una cama extra la doble puede tener dos individuales o u
 		
 		for (Habitacion habitacion : listaHabitaciones) {
 			if(habitacion.getTipoHabticacion() == TipoHabitacion.DOBLE) {
 				
-				if(habitacion.getListaCamas().size() ==1 ) subValor+=120000;
-				
-				
-				
+				if(habitacion.getListaCamas().size() == 1 ) {
+					subValor+=120000;
+				}else {
+					
+					subValor+=80000;
+					subValor += habitacion.getListaCamas().stream()
+							.mapToInt(cama -> cama.getTipoCama() == TipoCama.INDIVIDUAL ? 20000 : 0)
+							.sum();	
+				}
 			}else {
-				subValor+=80000;
+				subValor += 40000; 
+				subValor += habitacion.getListaCamas().stream()
+	                    .mapToInt(cama -> cama.getTipoCama() == TipoCama.INDIVIDUAL ? 20000 : 0)
+	                    .sum();
 			}
-			
-			
- 
-			
+		
 		}
-		
-		
-		
+		factura.setSubValor(subValor);
+	
 	}
 	
 	private void calcularValorTotal() {
+		double valor = 0;
 		
+		int cantidadDias = calcularDiferenciaEnDias(fechaEntrada, fechaSalida);
+		valor = factura.getSubValor() * cantidadDias;
+		
+		factura.setValorTotal(valor);
 	}
+	
+	public  int calcularDiferenciaEnDias(String fechaInicial, String fechaFinal) {
+        String[] partesFechaInicial = fechaInicial.split("/");
+        String[] partesFechaFinal = fechaFinal.split("/");
+
+        int diaInicial = Integer.parseInt(partesFechaInicial[0]);
+        int mesInicial = Integer.parseInt(partesFechaInicial[1]);
+        int anioInicial = Integer.parseInt(partesFechaInicial[2]);
+
+        int diaFinal = Integer.parseInt(partesFechaFinal[0]);
+        int mesFinal = Integer.parseInt(partesFechaFinal[1]);
+        int anioFinal = Integer.parseInt(partesFechaFinal[2]);
+
+        LocalDate fechaInicialLocal = LocalDate.of(anioInicial, mesInicial, diaInicial);
+        LocalDate fechaFinalLocal = LocalDate.of(anioFinal, mesFinal, diaFinal);
+
+        long diferenciaDias = ChronoUnit.DAYS.between(fechaInicialLocal, fechaFinalLocal);
+        return (int) diferenciaDias;
+    }
 	
 	
 
