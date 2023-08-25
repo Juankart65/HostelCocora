@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
+import model.Hotel;
 
 
 /**
@@ -21,6 +22,8 @@ import javafx.stage.StageStyle;
 
 
 public class App extends Application {
+	
+	public Hotel hotel = new Hotel();
 
 	// Declaracion de variables
 	private Stage primaryStage;

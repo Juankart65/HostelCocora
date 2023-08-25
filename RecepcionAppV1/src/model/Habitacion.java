@@ -53,6 +53,16 @@ public class Habitacion {
 	public Habitacion() {
 		super();
 	}
+
+	public Habitacion(String id, ArrayList<Cama> listaCamas, Estado estado, Disponibilidad disponibilidad,
+			TipoHabitacion tipoHabticacion) {
+		super();
+		this.id = id;
+		this.listaCamas = listaCamas;
+		this.estado = estado;
+		this.disponibilidad = disponibilidad;
+		this.tipoHabticacion = tipoHabticacion;
+	}
 	
 	
 
