@@ -267,8 +267,6 @@ public class Hotel {
             
            getListaHabitaciones().add(sencilla);
            
-        }
-
-        
+        }        
     }
 }
