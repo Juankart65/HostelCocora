@@ -6,8 +6,10 @@ public class Factura {
 
 	private String id;
 	private String fecha;
-	private String subValor;
-	private String valorTotal;
+	private double subValor;
+	private double valorTotal;
+	
+//	
 
 	public String getId() {
 		return id;
@@ -25,23 +27,27 @@ public class Factura {
 		this.fecha = fecha;
 	}
 
-	public String getSubValor() {
+	public double getSubValor() {
 		return subValor;
 	}
 
-	public void setSubValor(String subValor) {
+	public void setSubValor(double subValor) {
 		this.subValor = subValor;
 	}
 
-	public String getValorTotal() {
+	public double getValorTotal() {
 		return valorTotal;
 	}
 
-	public void setValorTotal(String valorTotal) {
+	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 
 	public Factura() {
+		super();
+	}
+
+	public Factura(String string, String string2, String string3, String string4) {
 		super();
 	}
 
@@ -65,6 +71,11 @@ public class Factura {
 	@Override
 	public String toString() {
 		return "Factura [id=" + id + ", fecha=" + fecha + ", subValor=" + subValor + ", valorTotal=" + valorTotal + "]";
+	}
+	
+	
+	public void calcularValorTotal() {
+		
 	}
 
 }

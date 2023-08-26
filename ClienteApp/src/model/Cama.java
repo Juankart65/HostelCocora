@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cama {
+public class Cama implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private Estado estado;
 	private TipoCama tipoCama;
@@ -43,6 +48,15 @@ public class Cama {
 
 	public Cama() {
 		super();
+	}
+
+	public Cama(String id, Estado estado, TipoCama tipoCama, String idHabitacion) {
+		super();
+		this.id = id;
+		this.estado = estado;
+		this.tipoCama = tipoCama;
+		this.idHabitacion = idHabitacion;
+
 	}
 
 	@Override

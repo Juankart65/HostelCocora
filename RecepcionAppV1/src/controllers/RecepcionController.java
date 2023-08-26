@@ -1,5 +1,13 @@
 package controllers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,6 +70,9 @@ public class RecepcionController {
 	    private ListView<Reserva> lvReservas = new ListView<Reserva>();
 	    
 	    private List<String> selectedIndices = new ArrayList<>();
+	    
+	    private ServerSocket serverSocket;
+	    private boolean isServerRunning = false;
 
 	    
 	    App app = new App();
@@ -77,6 +88,9 @@ public class RecepcionController {
 			//Fecha
 			String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy"));
 			txtFecha.setText(fecha);
+			
+		    // Start the socket server on a specific port (e.g., 12345)
+		    startServer(2222);
 			
 			/*
 			 * 
@@ -109,15 +123,94 @@ public class RecepcionController {
 	    @FXML
 	    void generarFacturaAction(ActionEvent event) {
 	    	JOptionPane.showMessageDialog(null, 
-	    			"se ha generado una factura/n"
-	
-	
-	    			);
+	    			"se ha generado una factura/n");
 
 	    }
+	    
+	    private void startServer(int port) {
+	        try {
+	            serverSocket = new ServerSocket(port);
+	            isServerRunning = true;
+
+	            new Thread(() -> {
+	                while (isServerRunning) {
+	                    try {
+	                        Socket clientSocket = serverSocket.accept();
+	                        // Handle the client socket in a separate method or class
+	                        handleClientSocket(clientSocket);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+
+	            System.out.println("Server started on port " + port);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    private void handleClientSocket(Socket clientSocket) {
+	        try {
+	            // Configurar flujos de entrada y salida para comunicarse con el cliente
+	            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
+
+//	            // Leer el mensaje del cliente
+//	            String mensajeDelCliente = objectIn.readLine();
+
+	            // Procesar el mensaje y obtener la lista de objetos
+	            List<Habitacion> listaDeHabitaciones = obtenerListaDeHabitaciones();
+
+	            // Enviar la lista de objetos al cliente
+	            try {
+	                ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
+	                objectOut.writeObject(listaDeHabitaciones);
+	                objectOut.flush();  // Importante: asegurarse de que los datos se envíen inmediatamente
+	                objectOut.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+
+	            // Cerrar flujos y el socket del cliente
+	            objectIn.close();
+	            clientSocket.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+
+	    
+	    private List<Habitacion> obtenerListaDeHabitaciones() {
+			List<Habitacion> habitacionesDisponibles = new ArrayList<Habitacion>();
+			
+	    	for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+				if(habitacion != null && habitacion.getDisponibilidad().equals(Disponibilidad.DISPONIBLE)) {
+					habitacionesDisponibles.add(habitacion);
+				}
+			}
+	    	
+	    	return habitacionesDisponibles;
+		}
+
+
+		private void stopServer() {
+	        isServerRunning = false;
+	        try {
+	            if (serverSocket != null) {
+	                serverSocket.close();
+	                System.out.println("Server stopped");
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+
 
 	    @FXML
 	    void salirAction(ActionEvent event) {
+	    	stopServer();
 	    	System.exit(0);
 	    }
 

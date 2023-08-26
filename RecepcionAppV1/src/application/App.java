@@ -102,10 +102,10 @@ public class App extends Application {
 			scene.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
 			
 			 // Configurar el DatePicker para bloquear fechas anteriores
-	        DatePicker datePickerEntrada = formularioController.getDpFechaSalida(); // Asegúrate de que el controlador tenga una referencia al DatePicker
+	        DatePicker datePickerEntrada = formularioController.getDpFechaSalida(); // Asegï¿½rate de que el controlador tenga una referencia al DatePicker
 	        datePickerEntrada.setDayCellFactory(getDayCellFactory());
 	        
-	        DatePicker datePickerSalida = formularioController.getDpFechaLlegada(); // Asegúrate de que el controlador tenga una referencia al DatePicker
+	        DatePicker datePickerSalida = formularioController.getDpFechaLlegada(); // Asegï¿½rate de que el controlador tenga una referencia al DatePicker
 	        datePickerSalida.setDayCellFactory(getDayCellFactory());
 
 			primaryStage.setScene(scene);
@@ -133,6 +133,7 @@ public class App extends Application {
             }
         };
     }
+	
 
 
 }

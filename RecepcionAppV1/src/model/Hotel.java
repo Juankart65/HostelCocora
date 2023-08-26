@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import exceptions.CamaException;
@@ -8,7 +9,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Alert.AlertType;
 
-public class Hotel {
+public class Hotel implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String nombre;
 
@@ -330,7 +336,7 @@ public class Hotel {
 
 	//------------------FIN-----------------------------------------
 	
-public void  crearHabitaciones() {
+	public void  crearHabitaciones() {
         
 
         for (int i = 1; i <= 10; i++) {

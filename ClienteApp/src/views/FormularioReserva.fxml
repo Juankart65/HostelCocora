@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormularioController">
+   <children>
+      <AnchorPane layoutX="54.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1144.0" styleClass="root" stylesheets="@../resources/Styles.css">
+         <children>
+            <ImageView fitHeight="617.0" fitWidth="1098.0" layoutX="43.0" layoutY="14.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../git/HostelCocoraV1/RecepcionAppV1/src/resources/fondoPC.jpg" />
+               </image>
+            </ImageView>
+            <GridPane alignment="CENTER" layoutX="67.0" layoutY="66.0" prefHeight="529.0" prefWidth="620.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="280.0" text="Nombre" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtNombre" alignment="CENTER" prefHeight="65.0" prefWidth="211.0" promptText="Ingrese un nombre" GridPane.columnIndex="1">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Apellido" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtApellido" alignment="CENTER" prefHeight="65.0" prefWidth="211.0" promptText="Ingrese un apellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="280.0" text="Cédula" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCedula" alignment="CENTER" prefHeight="65.0" prefWidth="211.0" promptText="Ingrese una cédula" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Cantidad de habitaciones" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Camas adicionales" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Teléfono" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtTelefono" alignment="CENTER" prefHeight="65.0" prefWidth="211.0" promptText="Ingrese un teléfono" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="cbxCantidadHabitacionesSencillos" prefHeight="65.0" prefWidth="293.0" promptText="Seleccione..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="txtCantidadHabitaciones" alignment="CENTER" editable="false" prefHeight="65.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="dpFechaLlegada" prefHeight="63.0" prefWidth="293.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Fecha llegada" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="60.0" prefWidth="280.0" text="Fecha salida" GridPane.rowIndex="7">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="dpFechaSalida" prefHeight="63.0" prefWidth="293.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="291.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="207.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="78.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <HBox alignment="CENTER" layoutX="700.0" layoutY="477.0" prefHeight="100.0" prefWidth="383.0" spacing="100.0">
+               <children>
+                  <Button fx:id="bntRegistrarUsuario" mnemonicParsing="false" onAction="#registrarUsuarioAction" prefHeight="44.0" prefWidth="198.0" styleClass="buttonReservar" text="Reservar" />
+                  <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salirAction" prefHeight="39.0" prefWidth="98.0" styleClass="buttonSalir" text="Volver" />
+               </children>
+            </HBox>
+            <ListView fx:id="lvCamasReservar" layoutX="712.0" layoutY="102.0" prefHeight="347.0" prefWidth="358.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

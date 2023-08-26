@@ -1,11 +1,16 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class Reserva {
+public class Reserva implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private Usuario usuario;
 	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();

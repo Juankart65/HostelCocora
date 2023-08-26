@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cama {
+public class Cama implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private Estado estado;
 	private TipoCama tipoCama;

@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Habitacion {
+public class Habitacion implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private ArrayList<Cama> listaCamas = new ArrayList<Cama>();
 	private Estado estado;
