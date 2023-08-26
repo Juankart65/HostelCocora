@@ -242,16 +242,101 @@ public class Hotel {
 	
 	//------------------FIN-----------------------------------------
 	
-	//------------------CRUD Camas--------------------------------
+	//------------------CRUD Camas------------------------------
+
+		public Cama crearCama(Cama newCama) throws CamaException {
+
+			Cama cama = null;
+			boolean CamaExiste = false;
+
+			CamaExiste = verificarReservaExiste(newCama.getId());
+
+			if(CamaExiste == true) {
+
+				alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Cama no creada");
+				alert.setHeaderText("La Cama con el id # " + newCama.getId() + " no ha sido creada porque ya existe");
+
+				dialogPane = alert.getDialogPane();
+				dialogPane.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
+				dialogPane.getStyleClass().add("dialogs");
+
+				alert.showAndWait();
+
+				throw new CamaException("La Cama con el id # " + newCama.getId() + " no se puede guardar porque ya existe");
 
 
-	public void  crearHabitaciones() {
+
+			} else {
+				cama = new Cama();
+				cama.setId(newCama.getId());
+				cama.setEstado(newCama.getEstado());
+				cama.setTipoCama(newCama.getTipoCama());
+				cama.setIdHabitacion(newCama.getIdHabitacion());
+				getListaCamas().add(cama);
+			}
+
+			return cama;
+	}
+
+	private boolean verificarCamaExiste(String id) {
+
+		for (Cama cama : getListaCamas()) {
+			if(cama.getId().equals(id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public Cama obtenerCama(String id) {
+
+		Cama camaEncontrada = null;
+		if (id != null) {
+			for (Cama cama : getListaCamas()) {
+				if (cama.getId().equals(id))
+					camaEncontrada = cama;
+			}
+
+		}
+		return camaEncontrada;
+	}
+
+	public void updateCama(String id, Cama newCama) {
+
+		Cama camaEncontrada = obtenerCama(id);
+		if (camaEncontrada != null) {
+			camaEncontrada.setId(newCama.getId());
+			camaEncontrada.setEstado(newCama.getEstado());
+			camaEncontrada.setTipoCama(newCama.getTipoCama());
+			camaEncontrada.setIdHabitacion(newCama.getIdHabitacion());
+		}
+
+	}
+
+	public void deleteCama(String id) {
+
+		if (id != null) {
+			for (Cama cama : getListaCamas()) {
+				if (cama.getId().equals(id))
+					getListaCamas().remove(cama);
+				System.out.println("Reserva eliminada correctamente");
+			}
+
+		}
+
+	}
+
+	//------------------FIN-----------------------------------------
+	
+public void  crearHabitaciones() {
         
 
         for (int i = 1; i <= 10; i++) {
             Habitacion doble = new Habitacion(
                 "D" + i,
-                new ArrayList<>(), // La lista de camas se agregará según tus necesidades
+                new ArrayList<>(), // La lista de camas se agregarÃ¡ segÃºn tus necesidades
                 Estado.FUNCIONANDO,
                 Disponibilidad.DISPONIBLE,
                 TipoHabitacion.DOBLE
@@ -263,7 +348,7 @@ public class Hotel {
 
             Habitacion sencilla = new Habitacion(
                 "S" + i,
-                new ArrayList<>(), // La lista de camas se agregará según tus necesidades
+                new ArrayList<>(), // La lista de camas se agregarÃ¡ segÃºn tus necesidades
                 Estado.FUNCIONANDO,
                 Disponibilidad.DISPONIBLE,
                 TipoHabitacion.SENCILLA
@@ -271,8 +356,6 @@ public class Hotel {
             
            getListaHabitaciones().add(sencilla);
            
-        }
-
-        
+        }        
     }
 }
