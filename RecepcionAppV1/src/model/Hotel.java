@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import exceptions.CamaException;
 import exceptions.ReservaException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
@@ -237,6 +238,9 @@ public class Hotel {
 	
 	
 	//------------------FIN-----------------------------------------
+	
+	//------------------CRUD Camas--------------------------------
+
 
 	
 }
