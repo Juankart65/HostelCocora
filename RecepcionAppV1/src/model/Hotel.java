@@ -330,7 +330,7 @@ public class Hotel {
 
 	//------------------FIN-----------------------------------------
 	
-public void  crearHabitaciones() {
+	public void  crearHabitaciones() {
         
 
         for (int i = 1; i <= 10; i++) {

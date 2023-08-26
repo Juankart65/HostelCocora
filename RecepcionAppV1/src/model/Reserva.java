@@ -10,13 +10,13 @@ public class Reserva {
 	private Usuario usuario;
 	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();
 	private Factura factura;
-	private String fechaEntrada;
-	private String fechaSalida;
+	private LocalDate fechaEntrada;
+	private LocalDate fechaSalida;
 	
 	
 
-	public Reserva(String id, Usuario usuario, ArrayList<Habitacion> listaHabitaciones, Factura factura, String fechaEntrada,
-			String fechaSalida) {
+	public Reserva(String id, Usuario usuario, ArrayList<Habitacion> listaHabitaciones, Factura factura, LocalDate fechaEntrada,
+			LocalDate fechaSalida) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
@@ -24,25 +24,29 @@ public class Reserva {
 		this.factura = factura;
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
+		
+		calcularSubValorFactura();
+		calcularValorTotal();
 	}
 
 	public String getId() {
+		
 		return id;
 	}
 
-	public String getFechaEntrada() {
+	public LocalDate getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(String fechaEntrada) {
+	public void setFechaEntrada(LocalDate fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
-	public String getFechaSalida() {
+	public LocalDate getFechaSalida() {
 		return fechaSalida;
 	}
 
-	public void setFechaSalida(String fechaSalida) {
+	public void setFechaSalida(LocalDate fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 
@@ -107,8 +111,8 @@ public class Reserva {
 		
 		}
 		factura.setSubValor(subValor);
-	
 	}
+	
 	
 	private void calcularValorTotal() {
 		double valor = 0;
@@ -119,24 +123,12 @@ public class Reserva {
 		factura.setValorTotal(valor);
 	}
 	
-	public  int calcularDiferenciaEnDias(String fechaInicial, String fechaFinal) {
-        String[] partesFechaInicial = fechaInicial.split("/");
-        String[] partesFechaFinal = fechaFinal.split("/");
-
-        int diaInicial = Integer.parseInt(partesFechaInicial[0]);
-        int mesInicial = Integer.parseInt(partesFechaInicial[1]);
-        int anioInicial = Integer.parseInt(partesFechaInicial[2]);
-
-        int diaFinal = Integer.parseInt(partesFechaFinal[0]);
-        int mesFinal = Integer.parseInt(partesFechaFinal[1]);
-        int anioFinal = Integer.parseInt(partesFechaFinal[2]);
-
-        LocalDate fechaInicialLocal = LocalDate.of(anioInicial, mesInicial, diaInicial);
-        LocalDate fechaFinalLocal = LocalDate.of(anioFinal, mesFinal, diaFinal);
-
-        long diferenciaDias = ChronoUnit.DAYS.between(fechaInicialLocal, fechaFinalLocal);
-        return (int) diferenciaDias;
-    }
+	public int calcularDiferenciaEnDias(LocalDate fechaInicial, LocalDate fechaFinal) {
+	    long diferenciaDias = ChronoUnit.DAYS.between(fechaInicial, fechaFinal);
+	    return (int) diferenciaDias;
+	}
+	
+	
 	
 	
 

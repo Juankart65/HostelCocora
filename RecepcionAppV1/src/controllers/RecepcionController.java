@@ -96,8 +96,8 @@ public class RecepcionController {
 		
 			
 			Factura factura = new Factura("01", "14/02", "300", "315");
-			Reserva reserva = new Reserva("01", userTest1, null, factura, "", "");
-			app.hotel.crearReserva(reserva);
+//			Reserva reserva = new Reserva("01", userTest1, null, factura, "", "");
+//			app.hotel.crearReserva(reserva);
 			
 			
 			cargarReservasAction();
@@ -108,11 +108,7 @@ public class RecepcionController {
 
 	    @FXML
 	    void generarFacturaAction(ActionEvent event) {
-	    	JOptionPane.showMessageDialog(null, 
-	    			"se ha generado una factura/n"
-	
-	
-	    			);
+	    	JOptionPane.showMessageDialog(null,"se ha generado una factura/n");
 
 	    }
 
