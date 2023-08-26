@@ -16,12 +16,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 import model.Cama;
 import model.Disponibilidad;
 import model.Estado;
@@ -105,7 +108,11 @@ public class RecepcionController {
 
 	    @FXML
 	    void generarFacturaAction(ActionEvent event) {
-	    	JOptionPane.showMessageDialog(null, "se ha generado una factura");
+	    	JOptionPane.showMessageDialog(null, 
+	    			"se ha generado una factura/n"
+	
+	
+	    			);
 
 	    }
 
@@ -120,6 +127,7 @@ public class RecepcionController {
 		}
 		
 		public void cargarReservasAction() {
+			
 		    ArrayList<Reserva> reservas = app.hotel.getListaReservas();
 		    ObservableList<Reserva> reservasObservableList = FXCollections.observableArrayList(reservas);
 
@@ -189,18 +197,22 @@ public class RecepcionController {
 		            });
 		}
 		
+		
 	    @FXML
 	    void crearReservaAction(ActionEvent event) {
 	    	Reserva reserva = null;
 	    	
-	    	for (String indice : selectedIndices) {
-				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
-					if(habitacion != null && habitacion.getId().equals(indice)) {
-						reserva.getListaHabitaciones().add(habitacion);
-					}
-				}
-			}
+//	    	for (String indice : selectedIndices) {
+//				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+//					if(habitacion != null && habitacion.getId().equals(indice)) {
+//						reserva.getListaHabitaciones().add(habitacion);
+//					}
+//				}
+//			}
+	    	
 	    	app.mostrarVentanaFormularioReserva(reserva);
 	    }
+	    
+	    
 
 }

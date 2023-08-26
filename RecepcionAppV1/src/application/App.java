@@ -2,15 +2,19 @@ package application;
 
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import controllers.FormularioController;
 import controllers.RecepcionController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import model.Hotel;
 import model.Reserva;
 
@@ -96,15 +100,39 @@ public class App extends Application {
 			scene.setFill(Color.TRANSPARENT);
 			// Agregar el archivo de estilos style.css
 			scene.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
+			
+			 // Configurar el DatePicker para bloquear fechas anteriores
+	        DatePicker datePickerEntrada = formularioController.getDpFechaSalida(); // Asegúrate de que el controlador tenga una referencia al DatePicker
+	        datePickerEntrada.setDayCellFactory(getDayCellFactory());
+	        
+	        DatePicker datePickerSalida = formularioController.getDpFechaLlegada(); // Asegúrate de que el controlador tenga una referencia al DatePicker
+	        datePickerSalida.setDayCellFactory(getDayCellFactory());
 
 			primaryStage.setScene(scene);
 			primaryStage.centerOnScreen();
 			primaryStage.show();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
+		
 	}
+	
+	private Callback<DatePicker, DateCell> getDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                // Bloquear fechas anteriores a la actual
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        };
+    }
 
 
 }

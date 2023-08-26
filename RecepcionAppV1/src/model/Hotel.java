@@ -36,6 +36,8 @@ public class Hotel {
 	public Hotel(String nombre) {
 		super();
 		this.nombre = nombre;
+		
+		
 	}
 
 
@@ -70,6 +72,7 @@ public class Hotel {
 
 	public Hotel() {
 		super();
+		crearHabitaciones();
 	}
 
 	// -------------CRUD Habitacion-------------------------------------------------
@@ -242,5 +245,34 @@ public class Hotel {
 	//------------------CRUD Camas--------------------------------
 
 
-	
+	public void  crearHabitaciones() {
+        
+
+        for (int i = 1; i <= 10; i++) {
+            Habitacion doble = new Habitacion(
+                "D" + i,
+                new ArrayList<>(), // La lista de camas se agregará según tus necesidades
+                Estado.FUNCIONANDO,
+                Disponibilidad.DISPONIBLE,
+                TipoHabitacion.DOBLE
+            );
+            
+           getListaHabitaciones().add(doble);
+            
+           
+
+            Habitacion sencilla = new Habitacion(
+                "S" + i,
+                new ArrayList<>(), // La lista de camas se agregará según tus necesidades
+                Estado.FUNCIONANDO,
+                Disponibilidad.DISPONIBLE,
+                TipoHabitacion.SENCILLA
+            );
+            
+           getListaHabitaciones().add(sencilla);
+           
+        }
+
+        
+    }
 }
