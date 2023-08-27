@@ -38,10 +38,12 @@ import model.Disponibilidad;
 import model.Estado;
 import model.Factura;
 import model.Habitacion;
+import model.Hotel;
 import model.Reserva;
 import model.TipoCama;
 import model.TipoHabitacion;
 import model.Usuario;
+import persistencia.Persistencia;
 
 public class RecepcionController {
 
@@ -73,6 +75,8 @@ public class RecepcionController {
 
 	private ServerSocket serverSocket;
 	private boolean isServerRunning = false;
+	
+	public Reserva reservaActual = new Reserva();
 
 	App app = new App();
 
@@ -90,46 +94,88 @@ public class RecepcionController {
 		txtFecha.setText(fecha);
 
 		// Start the socket server on a specific port (e.g., 12345)
-		startServer(2222);
+		startServer(7777);
+
+		inicializarDatos();
+//		iniciarSalvarDatosPrueba();
+//		cargarDatosDesdeArchivos();
+		cargarReservasAction();
+		System.out.println(app.hotel.getListaReservas() + " nueva");
+		cargarHabitacionesDisponiblesAction();
+
+	}
+
+	private void iniciarSalvarDatosPrueba() {
+
+		try {
+			Persistencia.guardarUsuarios(app.hotel.getListaUsuarios());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void cargarDatosDesdeArchivos() {
+
+		try {
+
+			Persistencia.cargarDatosArchivos(app.hotel);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void inicializarDatos() {
 
 		/*
 		 * 
 		 */
-		
+
 		Usuario userTest1 = new Usuario("1005", "3122459406", "juan@gmail.com");
 		Usuario userTest2 = new Usuario("1006", "3122459406", "juan@gmail.com");
-		
-		
-		app.hotel.crearUsuario(userTest1);
-		app.hotel.crearUsuario(userTest2);
-		
-		
-		
-		Usuario user = app.hotel.getUser("1005");
-		
-		System.out.println(user);
+
+
+		try {
+			app.hotel.crearUsuario(userTest1);
+			app.hotel.crearUsuario(userTest2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		System.out.println("------------------");
 		System.out.println(app.hotel.getListaUsuarios());
-		
-		
+
 		Cama cama = new Cama("id1", Estado.FUNCIONANDO, TipoCama.INDIVIDUAL, "id1");
 
 		ArrayList<Cama> arrayCamas = new ArrayList<Cama>();
 		arrayCamas.add(cama);
 
-		Habitacion habitacion = app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO,
-				Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
-		Habitacion habitacion1 = app.hotel.crearHabitacion("02", arrayCamas, Estado.FUNCIONANDO,
-				Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
-		Habitacion habitacion2 = app.hotel.crearHabitacion("03", arrayCamas, Estado.FUNCIONANDO,
-				Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+		try {
+			Habitacion habitacion2 = app.hotel.crearHabitacion("03", arrayCamas, Estado.FUNCIONANDO,
+					Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+			Habitacion habitacion = app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO,
+					Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+			Habitacion habitacion1 = app.hotel.crearHabitacion("02", arrayCamas, Estado.FUNCIONANDO,
+					Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Factura factura = new Factura("01", "14/02", "300", "315");
-//			Reserva reserva = new Reserva("01", userTest1, null, factura, "", "");
-//			app.hotel.crearReserva(reserva);
+		Reserva reserva = new Reserva(userTest1, null, factura);
+		try {
+			app.hotel.crearReserva(reserva);
+		} catch (ReservaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		cargarReservasAction();
-		cargarHabitacionesDisponiblesAction();
+		System.out.println("Empresa inicializada " + app.hotel);
 
 	}
 
@@ -139,8 +185,6 @@ public class RecepcionController {
 		JOptionPane.showMessageDialog(null, "se ha generado una factura/n");
 
 	}
-	
-
 
 	private void startServer(int port) {
 		try {
@@ -299,20 +343,21 @@ public class RecepcionController {
 
 	@FXML
 	void crearReservaAction(ActionEvent event) {
-		Reserva reserva = new Reserva();
-        Reserva newReserva = new Reserva();
+		Reserva newReserva = new Reserva();
 
-        for (String indice : selectedIndices) {
-            for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
-                if(habitacion != null && habitacion.getId().equals(indice)) {
-                    reserva.getListaHabitaciones().add(habitacion);
-                }
-            }
-        }
+		for (String indice : selectedIndices) {
+			for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+				if (habitacion != null && habitacion.getId().equals(indice)) {
+					reservaActual.getListaHabitaciones().add(habitacion);
+				}
+			}
+		}
 
-        newReserva =  app.mostrarVentanaFormularioReserva(newReserva);
+		newReserva = app.mostrarVentanaFormularioReserva(reservaActual);
 
-        app.hotel.getListaReservas().add(newReserva);
+		app.hotel.getListaReservas().add(newReserva);
+		
+		cargarReservasAction();
 
 	}
 }
