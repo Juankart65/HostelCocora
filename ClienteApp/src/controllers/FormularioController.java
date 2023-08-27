@@ -72,8 +72,8 @@ public class FormularioController {
 
 
 	public void mostrarReserva(Reserva reserva) {
-		System.out.println(reserva.getListaHabitaciones().size()-1);
-		txtCantidadHabitaciones.setText(String.valueOf(reserva.getListaHabitaciones().size()-1));
+		System.out.println(reserva.getListaHabitaciones().size());
+		txtCantidadHabitaciones.setText(String.valueOf(reserva.getListaHabitaciones().size()));
 		
 	}
 

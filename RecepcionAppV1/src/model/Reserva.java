@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 import application.App;
 
@@ -16,7 +17,7 @@ public class Reserva implements Serializable {
 
 	private String id;
 	private Usuario usuario;
-	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();
+	private List<Habitacion> listaHabitaciones = new ArrayList<Habitacion>();
 	private Factura factura;
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
@@ -29,10 +30,6 @@ public class Reserva implements Serializable {
 		this.usuario = usuario;
 		this.listaHabitaciones = listaHabitaciones;
 		this.factura = factura;
-		
-		
-		calcularSubValorFactura();
-		calcularValorTotal();
 		
 	}
 
@@ -70,12 +67,12 @@ public class Reserva implements Serializable {
 	}
 
 	
-	public ArrayList<Habitacion> getListaHabitaciones() {
+	public List<Habitacion> getListaHabitaciones() {
 		return listaHabitaciones;
 	}
 
-	public void setListaHabitaciones(ArrayList<Habitacion> listaHabitaciones) {
-		this.listaHabitaciones = listaHabitaciones;
+	public void setListaHabitaciones(List<Habitacion> list) {
+		this.listaHabitaciones = list;
 	}
 
 	public Factura getFactura() {
@@ -97,7 +94,7 @@ public class Reserva implements Serializable {
 		
 		//una cama extra la doble puede tener dos individuales o u
 		
-		for (Habitacion habitacion : listaHabitaciones) {
+		for (Habitacion habitacion : getListaHabitaciones()) {
 			if(habitacion.getTipoHabticacion() == TipoHabitacion.DOBLE) {
 				
 				if(habitacion.getListaCamas().size() == 1 ) {

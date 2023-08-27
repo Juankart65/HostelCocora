@@ -49,7 +49,7 @@ public class ReservasClienteController {
 	private ListView<Habitacion> lvHabitacionesDisponibles = new ListView<Habitacion>();
 	private List<String> selectedIndices = new ArrayList<>();
 
-	App app = new App();
+	App app;
 	
 	private Reserva reserva = new Reserva();
 	
@@ -57,7 +57,7 @@ public class ReservasClienteController {
 
 	// Server connection parameters
 	private static final String SERVER_IP = "localhost"; // Server IP address
-	private static final int SERVER_PORT = 2222; // Server port
+	private static final int SERVER_PORT = 7777; // Server port
 
 	private List<Habitacion> habitacionesDisponibles = new ArrayList<Habitacion>();
 

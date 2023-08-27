@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import exceptions.CamaException;
 import exceptions.ReservaException;
@@ -20,7 +22,7 @@ public class Hotel implements Serializable {
 
 	private ArrayList<Habitacion> listaHabitaciones = new ArrayList<>();
 	private ArrayList<Reserva> listaReservas = new ArrayList<>();
-	private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 	private ArrayList<Cama> listaCamas = new ArrayList<>();
 
 	public ArrayList<Cama> getListaCamas() {
@@ -64,7 +66,7 @@ public class Hotel implements Serializable {
 		this.listaReservas = listaReservas;
 	}
 
-	public ArrayList<Usuario> getListaUsuarios() {
+	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
 
@@ -357,14 +359,14 @@ public class Hotel implements Serializable {
 		userExist = verificarUsuarioExiste(usuario.getCedula());
 
 		if (userExist) {
-			throw new Exception("El usuario " + usuario.getCedula() + "no se ha podido crear debido a que ya existe");
+			throw new Exception("El usuario " + usuario.getCedula() + " no se ha podido crear debido a que ya existe");
 		} else {
 
 			user.setCedula(usuario.getCedula());
 			user.setEmail(usuario.getEmail());
 			user.setTelefono(usuario.getTelefono());
 
-			listaUsuarios.add(user);
+			getListaUsuarios().add(user);
 		}
 		return user;
 
@@ -421,21 +423,5 @@ public class Hotel implements Serializable {
 
 //	-------metodos------
 
-	public Usuario getUser(String cedula) {
 
-		Usuario usuario = null;
-
-		try {
-
-			for (Usuario user : listaUsuarios) {
-
-				if (user.getCedula().equals(cedula))
-					usuario = user;
-			}
-		} catch (Exception e) {
-
-		}
-
-		return usuario;
-	}
 }
