@@ -45,12 +45,18 @@ public class Usuario {
 	public Usuario(String cedula, String telefono, String email) {
 		super();
 		this.cedula = cedula;
+		this.telefono = telefono;
+		this.email = email;
 		
 	}
 	
 	
 
 
+
+	public Usuario() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public String toString() {

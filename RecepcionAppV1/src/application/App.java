@@ -3,6 +3,7 @@ package application;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import controllers.FormularioController;
 import controllers.RecepcionController;
@@ -83,7 +84,7 @@ public class App extends Application {
 		}
 	}
 
-	public void mostrarVentanaFormularioReserva(Reserva reserva) {
+	public Reserva mostrarVentanaFormularioReserva(Reserva reserva) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(App.class.getResource("../views/FormularioReserva.fxml"));
@@ -93,6 +94,7 @@ public class App extends Application {
 			FormularioController formularioController = loader.getController();
 			formularioController.setAplicacion(this);
 			formularioController.mostrarReserva(reserva);
+			
 
 			Scene scene = new Scene(rootLayout);
 
@@ -115,7 +117,8 @@ public class App extends Application {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+		return reserva;		
 		
 	}
 	
@@ -132,6 +135,11 @@ public class App extends Application {
                 }
             }
         };
+    }
+	
+	public static String generateRandomId() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 	
 
