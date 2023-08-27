@@ -87,15 +87,15 @@ public class FormularioController {
 	public Reserva reservarAction(Reserva reserva) {
 	    try {
 	    	
-	        String cedula = txtCedula.getText().toString(); // Obtener el número de cédula desde el campo de texto
+	        String cedula = txtCedula.getText(); // Obtener el número de cédula desde el campo de texto
 	        Usuario user = app.hotel.getUser(cedula); // Buscar el usuario por cédula
 	        
-	        System.out.println(cedula);
+//	        System.out.println(cedula);
 	        
-	        System.out.println(app.hotel.verificarUsuarioExiste(cedula));
+//	        System.out.println(app.hotel.verificarUsuarioExiste(cedula));
 //	        System.out.println(user);
 	        
-	        System.out.println(app.hotel.getListaUsuarios());
+//	        System.out.println(app.hotel.getListaUsuarios());
 	        
 	        if (user == null) {
 	            Alert alert = new Alert(AlertType.INFORMATION);
