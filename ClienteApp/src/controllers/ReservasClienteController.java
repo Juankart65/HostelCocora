@@ -23,6 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import model.Habitacion;
+import model.Reserva;
 
 public class ReservasClienteController {
 
@@ -49,6 +50,10 @@ public class ReservasClienteController {
 	private List<String> selectedIndices = new ArrayList<>();
 
 	App app = new App();
+	
+	private Reserva reserva = new Reserva();
+	
+	public Reserva reservaActual = new Reserva();
 
 	// Server connection parameters
 	private static final String SERVER_IP = "localhost"; // Server IP address
@@ -68,11 +73,25 @@ public class ReservasClienteController {
 		cargarHabitacionesDisponiblesAction();
 	}
 
-	@FXML
-	void crearReservaAction(ActionEvent event) {
-		
-	}
+    @FXML
+    void crearReservaAction(ActionEvent event) {
 
+    	Reserva newReserva = new Reserva();
+    	
+    	for (String indice : selectedIndices) {
+			for (Habitacion habitacion : habitacionesDisponibles) {
+				if(habitacion != null && habitacion.getId().equals(indice)) {
+					System.out.println("1");
+					reservaActual.getListaHabitaciones().add(habitacion);
+					System.out.println(habitacion);
+				}
+			}
+		}
+    	
+    	newReserva = app.mostrarVentanaCrearReserva(reservaActual);
+    	app.hotel.getListaReservas().add(newReserva);
+    }
+    
 	@FXML
 	void salirAction(ActionEvent event) {
 		app.mostrarVentanaLogin();
@@ -121,6 +140,7 @@ public class ReservasClienteController {
 
 	public void cargarHabitacionesDisponiblesAction() {
 
+		selectedIndices.clear();
 		List<Habitacion> habitacion = getHabitacionesDisponibles();
 		ObservableList<Habitacion> reservasObservableList = FXCollections.observableArrayList(habitacion);
 
@@ -148,10 +168,10 @@ public class ReservasClienteController {
 		// Configurar el evento de selección del ListView
 		lvHabitacionesDisponibles.getSelectionModel().selectedItemProperty().addListener(
 				(ObservableValue<? extends Habitacion> observable, Habitacion oldValue, Habitacion newValue) -> {
-					selectedIndices.clear();
 					for (Habitacion habitacionSelected : lvHabitacionesDisponibles.getSelectionModel()
 							.getSelectedItems()) {
 						selectedIndices.add(habitacionSelected.getId());
+						System.out.println(habitacionSelected.getId());
 					}
 				});
 	}

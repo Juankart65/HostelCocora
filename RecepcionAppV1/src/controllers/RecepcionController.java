@@ -76,7 +76,8 @@ public class RecepcionController {
 
 	    
 	    App app = new App();
-	    
+		private List<Reserva> reservas = new ArrayList<Reserva>();
+    
 		/**
 		 * Metodo initialize predefinido
 		 * @throws Exception 
@@ -152,6 +153,8 @@ public class RecepcionController {
 	    
 	    private void handleClientSocket(Socket clientSocket) {
 	        try {
+	        	
+	        	List<Reserva> receivedList = new ArrayList<Reserva>();
 	            // Configurar flujos de entrada y salida para comunicarse con el cliente
 	            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
@@ -170,6 +173,15 @@ public class RecepcionController {
 	            } catch (IOException e) {
 	                e.printStackTrace();
 	            }
+	            
+				// Receive the list from the server
+				try {
+					System.out.println("Recibiendo...");
+					receivedList = (List<Reserva>) objectIn.readObject();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
 
 	            // Cerrar flujos y el socket del cliente
 	            objectIn.close();
@@ -221,7 +233,7 @@ public class RecepcionController {
 		
 		public void cargarReservasAction() {
 			
-		    ArrayList<Reserva> reservas = app.hotel.getListaReservas();
+		    List<Reserva> reservas = getReservas();
 		    ObservableList<Reserva> reservasObservableList = FXCollections.observableArrayList(reservas);
 
 		    lvReservas.setItems(reservasObservableList);
@@ -293,18 +305,30 @@ public class RecepcionController {
 		
 	    @FXML
 	    void crearReservaAction(ActionEvent event) {
-	    	Reserva reserva = null;
+	    	Reserva reserva = new Reserva();
+	    	Reserva newReserva = new Reserva();
 	    	
-//	    	for (String indice : selectedIndices) {
-//				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
-//					if(habitacion != null && habitacion.getId().equals(indice)) {
-//						reserva.getListaHabitaciones().add(habitacion);
-//					}
-//				}
-//			}
+	    	for (String indice : selectedIndices) {
+				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+					if(habitacion != null && habitacion.getId().equals(indice)) {
+						reserva.getListaHabitaciones().add(habitacion);
+					}
+				}
+			}
 	    	
-	    	app.mostrarVentanaFormularioReserva(reserva);
+	    	app.mostrarVentanaFormularioReserva(reserva);;
+	    	app.hotel.getListaReservas().add(newReserva);
 	    }
+
+
+		public List<Reserva> getReservas() {
+			return reservas;
+		}
+
+
+		public void setReservas(List<Reserva> reservas) {
+			this.reservas = reservas;
+		}
 	    
 	    
 

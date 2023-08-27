@@ -73,8 +73,8 @@ public class Hotel implements Serializable {
 	}
 
 	public Usuario getUsuario(String usuario, String contrasenia) {
-		for (Usuario usuario1 : getListaUsuarios()) {
-			if (usuario1.getUsuario() == usuario && usuario1.getContrasenia().equals(contrasenia)) {
+		for (Usuario usuario1 : listaUsuarios) {
+			if (usuario1.getUsuario().equals(usuario) && usuario1.getContrasenia().equals(contrasenia)) {
 				return usuario1;
 			}
 		}

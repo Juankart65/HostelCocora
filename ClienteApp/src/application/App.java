@@ -4,6 +4,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import controllers.FormularioController;
 import controllers.InicioSesionController;
 import controllers.RegistrarUsuarioController;
 import controllers.ReservasClienteController;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import model.Hotel;
+import model.Reserva;
 import model.Usuario;
 
 
@@ -147,6 +149,43 @@ public class App extends Application {
 		}
 	}
 
+	/**
+	 * Muestra la ventana para registrar un nuevo usuario
+	 * 
+	 * @param cliente
+	 * @return
+	 */
+	public Reserva mostrarVentanaCrearReserva(Reserva reserva) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(App.class.getResource("../views/FormularioReserva.fxml"));
+
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+
+			Stage dialogStage = new Stage();
+
+			Scene scene = new Scene(rootLayout);
+			// Establecer el color de relleno del Scene a transparente
+			scene.setFill(Color.TRANSPARENT);
+			// Agregar el archivo de estilos style.css
+			scene.getStylesheets().add(getClass().getResource("../resources/Styles.css").toString());
+
+			FormularioController formularioController = loader.getController();
+			formularioController.setAplication(this);
+			formularioController.mostrarReserva(reserva);
+
+			primaryStage.setScene(scene);
+			primaryStage.centerOnScreen();
+			primaryStage.show();
+
+			return formularioController.crearReserva();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 
 }

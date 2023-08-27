@@ -68,6 +68,7 @@ public class InicioSesionController {
 			if (usuarioValido) {
 				Usuario usuarioActual = app.hotel.getUsuario(usuario, contrasenia);
 				Hotel.setUsuarioActual(usuarioActual);
+				System.out.println(usuarioActual);
 				app.mostrarVentanaReservas();
 			} else {
 				txtUsuario.setText("");
