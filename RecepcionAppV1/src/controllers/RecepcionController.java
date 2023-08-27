@@ -1,5 +1,13 @@
 package controllers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,180 +44,275 @@ import model.TipoHabitacion;
 import model.Usuario;
 
 public class RecepcionController {
-	
-	 @FXML
-	    private Button btnGenerarFactura;
 
-	    @FXML
-	    private Button btnSalir;
+	@FXML
+	private Button btnGenerarFactura;
 
-	    @FXML
-	    private TextArea txtReservas;
+	@FXML
+	private Button btnSalir;
 
-	    @FXML
-	    private TextArea txtcamasDisponibles;
+	@FXML
+	private TextArea txtReservas;
 
-	    @FXML
-	    private Button btnCrearReserva;
+	@FXML
+	private TextArea txtcamasDisponibles;
 
-	    @FXML
-	    private Label txtFecha;
-	    
-	    @FXML
-	    private ListView<Habitacion> lvHabitaciones = new ListView<Habitacion>();
+	@FXML
+	private Button btnCrearReserva;
 
-	    @FXML
-	    private ListView<Reserva> lvReservas = new ListView<Reserva>();
-	    
-	    private List<String> selectedIndices = new ArrayList<>();
+	@FXML
+	private Label txtFecha;
 
-	    
-	    App app = new App();
-	    
-		/**
-		 * Metodo initialize predefinido
-		 * @throws Exception 
+	@FXML
+	private ListView<Habitacion> lvHabitaciones = new ListView<Habitacion>();
+
+	@FXML
+	private ListView<Reserva> lvReservas = new ListView<Reserva>();
+
+	private List<String> selectedIndices = new ArrayList<>();
+
+	private ServerSocket serverSocket;
+	private boolean isServerRunning = false;
+
+	App app = new App();
+
+	/**
+	 * Metodo initialize predefinido
+	 * 
+	 * @throws Exception
+	 */
+	@FXML
+
+	private void initialize() throws Exception {
+
+		// Fecha
+		String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy"));
+		txtFecha.setText(fecha);
+
+		// Start the socket server on a specific port (e.g., 12345)
+		startServer(2222);
+
+		/*
+		 * 
 		 */
-		@FXML
 		
-		private void initialize() throws Exception {
-			
-			//Fecha
-			String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MMMM/yyyy"));
-			txtFecha.setText(fecha);
-			
-			/*
-			 * 
-			 */
-			Usuario userTest1 = new Usuario("10050", "323323", "juane@");
-			Cama cama = new Cama( "id1", Estado.FUNCIONANDO, TipoCama.INDIVIDUAL, "id1" );
-			
-			
-			ArrayList<Cama> arrayCamas = new ArrayList<Cama>();
-			arrayCamas.add(cama);
-			
-			
-			Habitacion habitacion =  app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
-			Habitacion habitacion1 =  app.hotel.crearHabitacion("02", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
-			Habitacion habitacion2 =  app.hotel.crearHabitacion("03", arrayCamas, Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+		Usuario userTest1 = new Usuario("1005", "3122459406", "juan@gmail.com");
+		Usuario userTest2 = new Usuario("1006", "3122459406", "juan@gmail.com");
+		
+		
+		app.hotel.crearUsuario(userTest1);
+		app.hotel.crearUsuario(userTest2);
+		
+		
+		
+		Usuario user = app.hotel.getUser("1005");
+		
+		System.out.println(user);
+		System.out.println("------------------");
+		System.out.println(app.hotel.getListaUsuarios());
+		
+		
+		Cama cama = new Cama("id1", Estado.FUNCIONANDO, TipoCama.INDIVIDUAL, "id1");
 
-		
-			
-			Factura factura = new Factura("01", "14/02", "300", "315");
+		ArrayList<Cama> arrayCamas = new ArrayList<Cama>();
+		arrayCamas.add(cama);
+
+		Habitacion habitacion = app.hotel.crearHabitacion("01", arrayCamas, Estado.FUNCIONANDO,
+				Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+		Habitacion habitacion1 = app.hotel.crearHabitacion("02", arrayCamas, Estado.FUNCIONANDO,
+				Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
+		Habitacion habitacion2 = app.hotel.crearHabitacion("03", arrayCamas, Estado.FUNCIONANDO,
+				Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
+
+		Factura factura = new Factura("01", "14/02", "300", "315");
 //			Reserva reserva = new Reserva("01", userTest1, null, factura, "", "");
 //			app.hotel.crearReserva(reserva);
-			
-			
-			cargarReservasAction();
-			cargarHabitacionesDisponiblesAction();
-			
+
+		cargarReservasAction();
+		cargarHabitacionesDisponiblesAction();
+
+	}
+
+	@FXML
+	void generarFacturaAction(ActionEvent event) {
+
+		JOptionPane.showMessageDialog(null, "se ha generado una factura/n");
+
+	}
+	
+
+
+	private void startServer(int port) {
+		try {
+			serverSocket = new ServerSocket(port);
+			isServerRunning = true;
+
+			new Thread(() -> {
+				while (isServerRunning) {
+					try {
+						Socket clientSocket = serverSocket.accept();
+						// Handle the client socket in a separate method or class
+						handleClientSocket(clientSocket);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+
+			System.out.println("Server started on port " + port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void handleClientSocket(Socket clientSocket) {
+		try {
+			// Configurar flujos de entrada y salida para comunicarse con el cliente
+			ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
+
+//	            // Leer el mensaje del cliente
+//	            String mensajeDelCliente = objectIn.readLine();
+
+			// Procesar el mensaje y obtener la lista de objetos
+			List<Habitacion> listaDeHabitaciones = obtenerListaDeHabitaciones();
+
+			// Enviar la lista de objetos al cliente
+			try {
+				ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
+				objectOut.writeObject(listaDeHabitaciones);
+				objectOut.flush(); // Importante: asegurarse de que los datos se envíen inmediatamente
+				objectOut.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// Cerrar flujos y el socket del cliente
+			objectIn.close();
+			clientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private List<Habitacion> obtenerListaDeHabitaciones() {
+		List<Habitacion> habitacionesDisponibles = new ArrayList<Habitacion>();
+
+		for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+			if (habitacion != null && habitacion.getDisponibilidad().equals(Disponibilidad.DISPONIBLE)) {
+				habitacionesDisponibles.add(habitacion);
+			}
 		}
 
+		return habitacionesDisponibles;
+	}
 
-	    @FXML
-	    void generarFacturaAction(ActionEvent event) {
-	    	JOptionPane.showMessageDialog(null,"se ha generado una factura/n");
-
-	    }
-
-	    @FXML
-	    void salirAction(ActionEvent event) {
-	    	System.exit(0);
-	    }
-
-		public void setAplicacion(App app) {
-			this.app = app;
-			
+	private void stopServer() {
+		isServerRunning = false;
+		try {
+			if (serverSocket != null) {
+				serverSocket.close();
+				System.out.println("Server stopped");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		public void cargarReservasAction() {
-			
-		    ArrayList<Reserva> reservas = app.hotel.getListaReservas();
-		    ObservableList<Reserva> reservasObservableList = FXCollections.observableArrayList(reservas);
+	}
 
-		    lvReservas.setItems(reservasObservableList);
+	@FXML
+	void salirAction(ActionEvent event) {
+		stopServer();
+		System.exit(0);
+	}
 
-		    // Configurar el CellFactory para mostrar los detalles de la reserva
-		    lvReservas.setCellFactory(param -> new ListCell<Reserva>() {
-		        @Override
-		        protected void updateItem(Reserva reserva, boolean empty) {
-		            super.updateItem(reserva, empty);
+	public void setAplicacion(App app) {
+		this.app = app;
 
-		            if (empty || reserva == null) {
-		                setText(null);
-		            } else {
-		                setText("ID Reserva: " + reserva.getId() +
-		                        "\nNombre Cliente: " + reserva.getUsuario().getCedula() +
-		                        "\nFecha Inicio: " + reserva.getFechaEntrada());
-		            }
-		        }
-		    });
+	}
 
-		    // Configurar el evento de selección del ListView
-		    lvReservas.getSelectionModel().selectedItemProperty().addListener(
-		        (observable, oldValue, newValue) -> mostrarDetallesReserva(newValue));
-		}
-		
-		private Object mostrarDetallesReserva(Reserva newValue) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	public void cargarReservasAction() {
 
-		public void cargarHabitacionesDisponiblesAction() {
-			
-		    ArrayList<Habitacion> habitacion = app.hotel.getListaHabitaciones();
-		    ObservableList<Habitacion> reservasObservableList = FXCollections.observableArrayList(habitacion);
+		ArrayList<Reserva> reservas = app.hotel.getListaReservas();
+		ObservableList<Reserva> reservasObservableList = FXCollections.observableArrayList(reservas);
 
-		    lvHabitaciones.setItems(reservasObservableList);
+		lvReservas.setItems(reservasObservableList);
 
-		    // Configurar el CellFactory para mostrar los detalles de la reserva
-		    lvHabitaciones.setCellFactory(param -> new ListCell<Habitacion>() {
-		        @Override
-		        protected void updateItem(Habitacion habitacion, boolean empty) {
-		            super.updateItem(habitacion, empty);
+		// Configurar el CellFactory para mostrar los detalles de la reserva
+		lvReservas.setCellFactory(param -> new ListCell<Reserva>() {
+			@Override
+			protected void updateItem(Reserva reserva, boolean empty) {
+				super.updateItem(reserva, empty);
 
-		            if (empty || habitacion == null) {
-		                setText(null);
-		            } else {
-		                setText("ID Habitacion: " + habitacion.getId() +
-		                        "\nEstado: " + habitacion.getEstado() +
-		                        "\nDisponibilidad: " + habitacion.getDisponibilidad() +
-		                        "\nTipo de habitacion: " + habitacion.getTipoHabticacion());
-		            }
-		        }
-		    });
-		    
-		    // Configurar el modo de selección múltiple
-		    lvHabitaciones.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+				if (empty || reserva == null) {
+					setText(null);
+				} else {
+					setText("ID Reserva: " + reserva.getId() + "\nNombre Cliente: " + reserva.getUsuario().getCedula()
+							+ "\nFecha Inicio: " + reserva.getFechaEntrada());
+				}
+			}
+		});
 
+		// Configurar el evento de selección del ListView
+		lvReservas.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> mostrarDetallesReserva(newValue));
+	}
 
-		    // Configurar el evento de selección del ListView
-		    lvHabitaciones.getSelectionModel().selectedItemProperty().addListener(
-		            (ObservableValue<? extends Habitacion> observable, Habitacion oldValue, Habitacion newValue) -> {
-		                selectedIndices.clear();
-		                for (Habitacion habitacionSelected : lvHabitaciones.getSelectionModel().getSelectedItems()) {
-		                    selectedIndices.add(habitacionSelected.getId());
-		                }
-		            });
-		}
-		
-		
-	    @FXML
-	    void crearReservaAction(ActionEvent event) {
-	    	Reserva reserva = null;
-	    	
-//	    	for (String indice : selectedIndices) {
-//				for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
-//					if(habitacion != null && habitacion.getId().equals(indice)) {
-//						reserva.getListaHabitaciones().add(habitacion);
-//					}
-//				}
-//			}
-	    	
-	    	app.mostrarVentanaFormularioReserva(reserva);
-	    }
-	    
-	    
-	    
+	private Object mostrarDetallesReserva(Reserva newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	public void cargarHabitacionesDisponiblesAction() {
+
+		ArrayList<Habitacion> habitacion = app.hotel.getListaHabitaciones();
+		ObservableList<Habitacion> reservasObservableList = FXCollections.observableArrayList(habitacion);
+
+		lvHabitaciones.setItems(reservasObservableList);
+
+		// Configurar el CellFactory para mostrar los detalles de la reserva
+		lvHabitaciones.setCellFactory(param -> new ListCell<Habitacion>() {
+			@Override
+			protected void updateItem(Habitacion habitacion, boolean empty) {
+				super.updateItem(habitacion, empty);
+
+				if (empty || habitacion == null) {
+					setText(null);
+				} else {
+					setText("ID Habitacion: " + habitacion.getId() + "\nEstado: " + habitacion.getEstado()
+							+ "\nDisponibilidad: " + habitacion.getDisponibilidad() + "\nTipo de habitacion: "
+							+ habitacion.getTipoHabticacion());
+				}
+			}
+		});
+
+		// Configurar el modo de selección múltiple
+		lvHabitaciones.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		// Configurar el evento de selección del ListView
+		lvHabitaciones.getSelectionModel().selectedItemProperty().addListener(
+				(ObservableValue<? extends Habitacion> observable, Habitacion oldValue, Habitacion newValue) -> {
+					selectedIndices.clear();
+					for (Habitacion habitacionSelected : lvHabitaciones.getSelectionModel().getSelectedItems()) {
+						selectedIndices.add(habitacionSelected.getId());
+					}
+				});
+	}
+
+	@FXML
+	void crearReservaAction(ActionEvent event) {
+		Reserva reserva = new Reserva();
+        Reserva newReserva = new Reserva();
+
+        for (String indice : selectedIndices) {
+            for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
+                if(habitacion != null && habitacion.getId().equals(indice)) {
+                    reserva.getListaHabitaciones().add(habitacion);
+                }
+            }
+        }
+
+        newReserva =  app.mostrarVentanaFormularioReserva(newReserva);
+
+        app.hotel.getListaReservas().add(newReserva);
+
+	}
 }

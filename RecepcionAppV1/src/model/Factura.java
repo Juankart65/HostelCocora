@@ -74,8 +74,6 @@ public class Factura {
 	}
 	
 	
-	public void calcularValorTotal() {
-		
-	}
+	
 
 }

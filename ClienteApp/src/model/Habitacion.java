@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Habitacion {
+public class Habitacion implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private ArrayList<Cama> listaCamas = new ArrayList<Cama>();
 	private Estado estado;
@@ -53,5 +58,19 @@ public class Habitacion {
 	public Habitacion() {
 		super();
 	}
+
+	public Habitacion(String id, ArrayList<Cama> listaCamas, Estado estado, Disponibilidad disponibilidad,
+			TipoHabitacion tipoHabticacion) {
+		super();
+		this.id = id;
+		this.listaCamas = listaCamas;
+		this.estado = estado;
+		this.disponibilidad = disponibilidad;
+		this.tipoHabticacion = tipoHabticacion;
+	}
+	
+	
+	
+	
 
 }

@@ -1,10 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class Reserva {
+import application.App;
+
+public class Reserva implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String id;
 	private Usuario usuario;
@@ -15,18 +23,17 @@ public class Reserva {
 	
 	
 
-	public Reserva(String id, Usuario usuario, ArrayList<Habitacion> listaHabitaciones, Factura factura, LocalDate fechaEntrada,
-			LocalDate fechaSalida) {
+	public Reserva(Usuario usuario, ArrayList<Habitacion> listaHabitaciones, Factura factura) {
 		super();
-		this.id = id;
+		this.id =  App.generateRandomId();
 		this.usuario = usuario;
 		this.listaHabitaciones = listaHabitaciones;
 		this.factura = factura;
-		this.fechaEntrada = fechaEntrada;
-		this.fechaSalida = fechaSalida;
+		
 		
 		calcularSubValorFactura();
 		calcularValorTotal();
+		
 	}
 
 	public String getId() {

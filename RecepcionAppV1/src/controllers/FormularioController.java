@@ -1,52 +1,57 @@
 package controllers;
 
+import javax.swing.JOptionPane;
+
 import application.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import model.Habitacion;
 import model.Reserva;
+import model.Usuario;
 
 public class FormularioController {
 
-    @FXML
-    private Button bntRegistrarUsuario;
+	@FXML
+	private Button bntRegistrarUsuario;
 
-    @FXML
-    private Button btnSalir;
+	@FXML
+	private Button btnSalir;
 
-    @FXML
-    private TextField txtNombre;
+	@FXML
+	private TextField txtCantidadHabitaciones;
 
-    @FXML
-    private ComboBox<?> cbxCantidadHabitacionesDobles;
+	@FXML
+	private TextField txtNombre;
 
-    @FXML
-    private ImageView imgHabitacion;
+	@FXML
+	private ComboBox<String> cbxCamasAdicionales;
 
-    @FXML
-    private TextField txtTelefono;
+	@FXML
+	private TextField txtCedula;
 
-    @FXML
-    private ComboBox<?> cbxCantidadHabitaciones;
+	@FXML
+	private DatePicker dpFechaLlegada;
 
-    @FXML
-    private TextField txtApellido;
+	@FXML
+	private DatePicker dpFechaSalida;
 
-    @FXML
-    private TextField txtCedula;
-    
-    @FXML
-    private DatePicker dpFechaLlegada;
-    
-    @FXML
-    private DatePicker dpFechaSalida;
+	@FXML
+	void reservaAction(ActionEvent event) {
+		
+		 Reserva reserva = new Reserva();  // Crear una nueva instancia de Reserva
+		 reserva = reservarAction(reserva);
+		
 
-    
-    public DatePicker getDpFechaLlegada() {
+	}
+
+	public DatePicker getDpFechaLlegada() {
 		return dpFechaLlegada;
 	}
 
@@ -64,30 +69,62 @@ public class FormularioController {
 
 	App app = new App();
 
-    @FXML
-    private ComboBox<?> cbxCantidadHabitacionesSencillos;
-
-    @FXML
-    void registrarUsuarioAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void salirAction(ActionEvent event) {
-    	app.mostrarVentanaRecepcion();
-    }
+	@FXML
+	void salirAction(ActionEvent event) {
+		app.mostrarVentanaRecepcion();
+	}
 
 	public void setAplicacion(App app) {
-		
+
 		this.app = app;
-		
+
 	}
 
 	public void mostrarReserva(Reserva reserva) {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	public Reserva reservarAction(Reserva reserva) {
+	    try {
+	    	
+	        String cedula = txtCedula.getText().toString(); // Obtener el número de cédula desde el campo de texto
+	        Usuario user = app.hotel.getUser(cedula); // Buscar el usuario por cédula
+	        
+	        System.out.println(cedula);
+	        
+	        System.out.println(app.hotel.verificarUsuarioExiste(cedula));
+//	        System.out.println(user);
+	        
+	        System.out.println(app.hotel.getListaUsuarios());
+	        
+	        if (user == null) {
+	            Alert alert = new Alert(AlertType.INFORMATION);
+	            alert.setTitle("Información");
+	            alert.setHeaderText("Usuario no existe");
+	            alert.setContentText("El usuario no ha sido encontrado, por favor cree uno.");
+	            alert.showAndWait();
+	        } else {
+	            reserva.setUsuario(user);
+	            reserva.setFechaEntrada(dpFechaLlegada.getValue());
+	            reserva.setFechaSalida(dpFechaSalida.getValue());
+	            
+	            System.out.println(reserva.getUsuario());
+	            
+	            JOptionPane.showMessageDialog(null, "Reserva creada con éxito");	        }
+	    } catch (Exception e) {
+	        System.out.println("Algo salió mal :(");
+	    }
+
+	    return reserva;
+	}
+
+
+	@FXML
+	void initialize() {
+		// Configuración inicial del controlador
+		cbxCamasAdicionales.getItems().addAll("Sí", "No");
+		cbxCamasAdicionales.setPromptText("Seleccione...");
+
 	}
 
 }
-
-
