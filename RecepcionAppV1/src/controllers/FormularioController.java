@@ -15,7 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import model.Cama;
+import model.Estado;
 import model.Reserva;
+import model.TipoCama;
 import model.Usuario;
 import persistencia.Persistencia;
 
@@ -89,6 +92,8 @@ public class FormularioController {
 	
 	List<Reserva> reservas = new ArrayList<Reserva>();
 
+
+	
 	public Reserva reservarAction() {
 		
 		RecepcionController recepcionController = new RecepcionController();
@@ -96,6 +101,7 @@ public class FormularioController {
 		
 		System.out.println(app.hotel.getListaUsuarios() + " formulario");
 		String cedula = txtCedula.getText(); // Obtener el numero de cedula desde el campo de texto
+
 
 		Usuario usuario = new Usuario(cedula, "", "");
 
@@ -110,14 +116,35 @@ public class FormularioController {
 		JOptionPane.showMessageDialog(null, "Reserva creada con exito");
 		System.out.println(reserva.getId() + " creada");
 		
+
 		try {
 			Persistencia.guardarReservas(reservas);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		definirHabitacionesDisponibles(reserva);
+		
+		System.out.println(reserva.getListaHabitaciones());
 		return reserva;
 		
+	}
+	
+	
+	public void definirHabitacionesDisponibles(Reserva reserva) {
+		if(cbxCamasAdicionales.getValue() == "Si") {
+			
+			for (Cama cama : app.hotel.getListaCamas()) {
+				if(cama.getEstado().equals(Estado.FUNCIONANDO) && cama.getTipoCama().equals(TipoCama.INDIVIDUAL)&& reserva.getListaHabitaciones().size()==1) {
+					reserva.getListaHabitaciones().get(0).getListaCamas().add(cama);
+
+					cama.setEstado(Estado.MANTENIMIENTO);
+					cama.setIdHabitacion(reserva.getListaHabitaciones().get(0).getId());
+					
+				}
+			}
+		}
 	}
 
 	@FXML
