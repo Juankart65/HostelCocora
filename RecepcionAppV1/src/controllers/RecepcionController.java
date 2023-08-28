@@ -348,7 +348,10 @@ public class RecepcionController {
 		for (String indice : selectedIndices) {
 			for (Habitacion habitacion : app.hotel.getListaHabitaciones()) {
 				if (habitacion != null && habitacion.getId().equals(indice)) {
+					
 					reservaActual.getListaHabitaciones().add(habitacion);
+					
+					habitacion.setDisponibilidad(Disponibilidad.OCUPADO);
 				}
 			}
 		}

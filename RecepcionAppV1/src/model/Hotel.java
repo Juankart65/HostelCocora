@@ -333,13 +333,13 @@ public class Hotel implements Serializable {
 	public void crearHabitaciones() {
 
 		for (int i = 1; i <= 10; i++) {
-			Habitacion doble = new Habitacion("D" + i, new ArrayList<>(), // La lista de camas se agregará según tus
+			Habitacion doble = new Habitacion("D" + i, // La lista de camas se agregará según tus
 																			// necesidades
 					Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.DOBLE);
 
 			getListaHabitaciones().add(doble);
 
-			Habitacion sencilla = new Habitacion("S" + i, new ArrayList<>(), // La lista de camas se agregará según
+			Habitacion sencilla = new Habitacion("S" + i,  // La lista de camas se agregará según
 																				// tus necesidades
 					Estado.FUNCIONANDO, Disponibilidad.DISPONIBLE, TipoHabitacion.SENCILLA);
 

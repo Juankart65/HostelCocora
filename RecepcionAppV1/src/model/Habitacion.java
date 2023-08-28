@@ -2,6 +2,10 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import application.App;
 
 public class Habitacion implements Serializable {
 
@@ -14,6 +18,10 @@ public class Habitacion implements Serializable {
 	private Estado estado;
 	private Disponibilidad disponibilidad;
 	private TipoHabitacion tipoHabticacion;
+
+//	App app = new App();
+	
+	
 
 	public String getId() {
 		return id;
@@ -59,18 +67,37 @@ public class Habitacion implements Serializable {
 		super();
 	}
 
-	public Habitacion(String id, ArrayList<Cama> listaCamas, Estado estado, Disponibilidad disponibilidad,
-			TipoHabitacion tipoHabticacion) {
+	public Habitacion(String id, Estado estado, Disponibilidad disponibilidad, TipoHabitacion tipoHabticacion) {
 		super();
 		this.id = id;
-		this.listaCamas = listaCamas;
 		this.estado = estado;
 		this.disponibilidad = disponibilidad;
 		this.tipoHabticacion = tipoHabticacion;
-	}
-	
-	
-	
-	
 
+//		repartirCamas();
+	}
+
+//	public void repartirCamas() {
+//	    if (this.tipoHabticacion.equals(TipoHabitacion.SENCILLA)) {
+//	        for (Cama cama : app.hotel.getListaCamas()) {
+//	            if (cama.getEstado().equals(Estado.FUNCIONANDO) &&
+//	                cama.getTipoCama().equals(TipoCama.INDIVIDUAL) &&
+//	                listaCamas.size() < 1) {
+//	                listaCamas.add(cama);
+//	                
+//	                cama.setEstado(Estado.MANTENIMIENTO);
+//	                cama.setIdHabitacion(id);
+//	            }
+//	        }
+//	    } else {
+//	        for (Cama cama : app.hotel.getListaCamas()) {
+//	            if (cama.getEstado().equals(Estado.FUNCIONANDO) &&
+//	                cama.getTipoCama().equals(TipoCama.DOBLE) &&
+//	                listaCamas.size() < 1) {
+//	                listaCamas.add(cama);
+//	                cama.setIdHabitacion(id);
+//	            }
+//	        }
+//	    }
+//	}
 }

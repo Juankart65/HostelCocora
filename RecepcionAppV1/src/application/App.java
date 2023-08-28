@@ -29,6 +29,8 @@ import model.Reserva;
 
 public class App extends Application {
 	
+	
+
 	public Hotel hotel = new Hotel();
 
 	// Declaracion de variables

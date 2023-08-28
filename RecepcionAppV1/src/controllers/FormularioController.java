@@ -11,7 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import model.Cama;
+import model.Estado;
 import model.Reserva;
+import model.TipoCama;
 import model.Usuario;
 
 public class FormularioController {
@@ -77,37 +80,7 @@ public class FormularioController {
 	}
 
 
-	public Reserva reservarAction(Reserva reserva) {
-	    try {
-	    	
-	        String cedula = txtCedula.getText(); // Obtener el número de cédula desde el campo de texto
-//	        Usuario user = app.hotel.getUser(cedula); // Buscar el usuario por cédula
-	        
-//	        System.out.println(cedula);
-	        
-//	        System.out.println(app.hotel.verificarUsuarioExiste(cedula));
-//	        System.out.println(user);
-	        
-//	        System.out.println(app.hotel.getListaUsuarios());
-	        
-	        if (user == null) {
-	            Alert alert = new Alert(AlertType.INFORMATION);
-	            alert.setTitle("Información");
-	            alert.setHeaderText("Usuario no existe");
-	            alert.setContentText("El usuario no ha sido encontrado, por favor cree uno.");
-	            alert.showAndWait();
-	        } else {
-	            reserva.setUsuario(user);
-	            reserva.setFechaEntrada(dpFechaLlegada.getValue());
-	            reserva.setFechaSalida(dpFechaSalida.getValue());
-	            
-	            System.out.println(reserva.getUsuario());
-	            
-	            JOptionPane.showMessageDialog(null, "Reserva creada con éxito");	        }
-	    } catch (Exception e) {
-	        System.out.println("Algo salió mal :");
-	    }
-	  }
+	
 	public Reserva reservarAction() {
 		
 		RecepcionController recepcionController = new RecepcionController();
@@ -129,13 +102,33 @@ public class FormularioController {
 
 		JOptionPane.showMessageDialog(null, "Reserva creada con exito");
 		System.out.println(reserva.getId() + " creada");
+		
+		definirHabitacionesDisponibles(reserva);
+		
+		System.out.println(reserva.getListaHabitaciones());
 		return reserva;
+	}
+	
+	
+	public void definirHabitacionesDisponibles(Reserva reserva) {
+		if(cbxCamasAdicionales.getValue() == "Si") {
+			
+			for (Cama cama : app.hotel.getListaCamas()) {
+				if(cama.getEstado().equals(Estado.FUNCIONANDO) && cama.getTipoCama().equals(TipoCama.INDIVIDUAL)&& reserva.getListaHabitaciones().size()==1) {
+					reserva.getListaHabitaciones().get(0).getListaCamas().add(cama);
+
+					cama.setEstado(Estado.MANTENIMIENTO);
+					cama.setIdHabitacion(reserva.getListaHabitaciones().get(0).getId());
+					
+				}
+			}
+		}
 	}
 
 	@FXML
 	void initialize() {
 		// Configuraciï¿½n inicial del controlador
-		cbxCamasAdicionales.getItems().addAll("Sï¿½", "No");
+		cbxCamasAdicionales.getItems().addAll("Si", "No");
 		cbxCamasAdicionales.setPromptText("Seleccione...");
 
 	}
