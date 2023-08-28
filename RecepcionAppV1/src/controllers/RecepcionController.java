@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -77,6 +78,16 @@ public class RecepcionController {
 	private boolean isServerRunning = false;
 	
 	public Reserva reservaActual = new Reserva();
+	
+	
+
+	public Reserva getReservaActual() {
+		return reservaActual;
+	}
+
+	public void setReservaActual(Reserva reservaActual) {
+		this.reservaActual = reservaActual;
+	}
 
 	App app = new App();
 
@@ -100,7 +111,7 @@ public class RecepcionController {
 //		iniciarSalvarDatosPrueba();
 //		cargarDatosDesdeArchivos();
 		cargarReservasAction();
-		System.out.println(app.hotel.getListaReservas() + " nueva");
+
 		cargarHabitacionesDisponiblesAction();
 
 	}
@@ -109,6 +120,7 @@ public class RecepcionController {
 
 		try {
 			Persistencia.guardarUsuarios(app.hotel.getListaUsuarios());
+			Persistencia.guardarReservas(app.hotel.getListaReservas());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -290,7 +302,7 @@ public class RecepcionController {
 					setText(null);
 				} else {
 					setText("ID Reserva: " + reserva.getId() + "\nNombre Cliente: " + reserva.getUsuario().getCedula()
-							+ "\nFecha Inicio: " + reserva.getFechaEntrada());
+							+ "\nFecha Inicio: 2023-08-27" + "\nFecha Inicio: 2023-08-30");
 				}
 			}
 		});
@@ -298,6 +310,7 @@ public class RecepcionController {
 		// Configurar el evento de selección del ListView
 		lvReservas.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> mostrarDetallesReserva(newValue));
+		System.out.println("Ok");
 	}
 
 	private Object mostrarDetallesReserva(Reserva newValue) {
@@ -339,6 +352,8 @@ public class RecepcionController {
 						selectedIndices.add(habitacionSelected.getId());
 					}
 				});
+		
+
 	}
 
 	@FXML
@@ -353,11 +368,19 @@ public class RecepcionController {
 			}
 		}
 
-		newReserva = app.mostrarVentanaFormularioReserva(reservaActual);
-
-		app.hotel.getListaReservas().add(newReserva);
+		app.mostrarVentanaFormularioReserva(reservaActual, this);
+		lvReservas.setDisable(false);
 		
-		cargarReservasAction();
+		try {
+			Persistencia.cargarDatosArchivos(app.hotel);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 	}
 }

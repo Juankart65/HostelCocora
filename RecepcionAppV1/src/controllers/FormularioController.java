@@ -1,5 +1,9 @@
 package controllers;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import application.App;
@@ -13,6 +17,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import model.Reserva;
 import model.Usuario;
+import persistencia.Persistencia;
 
 public class FormularioController {
 
@@ -41,10 +46,16 @@ public class FormularioController {
 	private DatePicker dpFechaSalida;
 
 	App app;
+	
+	RecepcionController recepcionController;
+	
+	public Reserva reserva = new Reserva(); // Crear una nueva instancia de Reserva
 
 	@FXML
 	void reservaAction(ActionEvent event) {
-		reservarAction();
+
+		reserva = reservarAction();
+		app.mostrarVentanaRecepcion();
 	}
 
 	public DatePicker getDpFechaLlegada() {
@@ -75,16 +86,16 @@ public class FormularioController {
 	public void mostrarReserva(Reserva reserva) {
 
 	}
+	
+	List<Reserva> reservas = new ArrayList<Reserva>();
 
 	public Reserva reservarAction() {
 		
 		RecepcionController recepcionController = new RecepcionController();
 		Reserva reserva = recepcionController.reservaActual;
 		
-		System.out.println(reserva.getListaHabitaciones());
-		
 		System.out.println(app.hotel.getListaUsuarios() + " formulario");
-		String cedula = txtCedula.getText(); // Obtener el n�mero de c�dula desde el campo de texto
+		String cedula = txtCedula.getText(); // Obtener el numero de cedula desde el campo de texto
 
 		Usuario usuario = new Usuario(cedula, "", "");
 
@@ -92,19 +103,34 @@ public class FormularioController {
 		reserva.setFechaEntrada(dpFechaLlegada.getValue());
 		reserva.setFechaSalida(dpFechaSalida.getValue());
 		reserva.setId(App.generateRandomId());
+		reserva.setListaHabitaciones(recepcionController.getReservaActual().getListaHabitaciones());
+		reservas.add(reserva);
 
 
 		JOptionPane.showMessageDialog(null, "Reserva creada con exito");
 		System.out.println(reserva.getId() + " creada");
+		
+		try {
+			Persistencia.guardarReservas(reservas);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return reserva;
+		
 	}
 
 	@FXML
 	void initialize() {
 		// Configuraci�n inicial del controlador
-		cbxCamasAdicionales.getItems().addAll("S�", "No");
+		cbxCamasAdicionales.getItems().addAll("Si", "No");
 		cbxCamasAdicionales.setPromptText("Seleccione...");
 
+	}
+
+	public void setController(RecepcionController recepcionController) {
+		this.recepcionController = recepcionController;
+		
 	}
 
 }

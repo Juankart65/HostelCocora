@@ -84,15 +84,18 @@ public class App extends Application {
 		}
 	}
 
-	public Reserva mostrarVentanaFormularioReserva(Reserva reserva) {
+	public Reserva mostrarVentanaFormularioReserva(Reserva reserva, RecepcionController recepcionController) {
+		
+		FormularioController formularioController = new FormularioController();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(App.class.getResource("../views/FormularioReserva.fxml"));
 
 			AnchorPane rootLayout = (AnchorPane) loader.load();
 
-			FormularioController formularioController = loader.getController();
+			formularioController = loader.getController();
 			formularioController.setAplicacion(this);
+			formularioController.setController(recepcionController);
 			formularioController.mostrarReserva(reserva);
 			
 
@@ -114,11 +117,12 @@ public class App extends Application {
 			primaryStage.centerOnScreen();
 			primaryStage.show();
 			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return reserva;		
+		return formularioController.reserva;		
 		
 	}
 	
